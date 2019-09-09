@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import CookBook from './components/CookBook';
 import * as serviceWorker from './serviceWorker';
+require('dotenv').config()
 
 ReactDOM.render(<CookBook />, document.getElementById('root'));
 
