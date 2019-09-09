@@ -1,0 +1,10 @@
+.desktop__nav ul {
+    display: flex;
+    justify-content: space-evenly;
+    list-style-type: none;
+}
+
+.desktopNavItem__li  a{
+    text-decoration: none;
+    color: black;
+}
