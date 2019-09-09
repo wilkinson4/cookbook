@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from "react-router-dom";
 import LoginForm from "./auth/Login"
+import RegisterForm from "./auth/Register"
 import SearchNewRecipes from "./SearchNewRecipes/SearchNewRecipes"
 
 export default class ApplicationViews extends Component {
@@ -19,6 +20,8 @@ export default class ApplicationViews extends Component {
                 />
                 {/* Render login form */}
                 <Route path="/login" component={LoginForm} />
+                {/* Render register form */}
+                <Route path="/register" component={RegisterForm} />
             </>
         )
     }

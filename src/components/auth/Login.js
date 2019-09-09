@@ -14,27 +14,40 @@ export default class LoginForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault()
+        const emailValidation = /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         const userObj = {
             email: this.state.loginEmail,
             password: this.state.loginPassword
         }
-        UserManager.getUserFromSearch("email", userObj.email)
-            .then(userArray => {
-                const userIsInDatabase = userArray.length > 0
-                if (userIsInDatabase) {
-                    const existingUserObj = userArray[0]
-                    const passwordMatches = existingUserObj.password === userObj.password
-                    if (passwordMatches) {
-                        sessionStorage.setItem("activeUser", existingUserObj.id)
-                        this.props.history.push("/")
+        if (this.state.loginEmail.length === 0 || this.state.loginPassword.length === 0) {
+            window.alert('Please fill out all fields')
+        } else if (!emailValidation.test(userObj.email)) {
+            window.alert("Invalid email format")
+        }
+        else {
+            UserManager.getUserFromSearch("email", userObj.email)
+                .then(userArray => {
+                    const userIsInDatabase = userArray.length > 0
+                    if (userIsInDatabase) {
+                        const existingUserObj = userArray[0]
+                        const passwordMatches = existingUserObj.password === userObj.password
+                        if (passwordMatches) {
+                            sessionStorage.setItem("activeUser", existingUserObj.id)
+                            this.props.history.push("/")
+                        }
+                    } else {
+                        const userConfirmation = window.confirm("Username/password not found. Click \"OK\" to register as new user. Click \"Cancel\" to try again.")
+                        if (userConfirmation) {
+                            this.props.history.push("/register")
+                        }
                     }
-                } else {
-                    const userConfirmation = window.confirm("Username/password not found. Click \"OK\" to register as new user. Click \"Cancel\" to try again.")
-                    if (userConfirmation) {
-                        this.props.history.push("/register")
-                    }
-                }
-            })
+                })
+        }
+    }
+
+    redirectToRegister = (event) => {
+        event.preventDefault()
+        this.props.history.push("/register")
     }
 
     render() {
@@ -49,6 +62,12 @@ export default class LoginForm extends Component {
                 </fieldset>
                 <fieldset>
                     <input type='submit' disabled={this.state.loadingStatus} id='loginSubmit__input' value='Login' onClick={this.handleSubmit} />
+                </fieldset>
+                <fieldset>
+                    <p>or</p>
+                </fieldset>
+                <fieldset>
+                    <input type="submit" onClick={this.redirectToRegister} value="Sign Up" />
                 </fieldset>
             </form>
         )
