@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import RecipeManager from '../../modules/RecipeManager';
 import './RecipeCard.css'
 
 export default class RecipeCard extends Component {
@@ -6,7 +7,26 @@ export default class RecipeCard extends Component {
         title: "",
         imageURL: "",
         description: "",
-        recipeLink: ""
+        recipeLink: "",
+        saveButtonText: "Save",
+        disabled: false
+    }
+
+    saveRecipe = (event) => {
+        const newRecipeObj = {
+            title: this.state.title,
+            link: this.state.recipeLink,
+            userId: parseInt(sessionStorage.getItem("activeUser")),
+            description: this.state.description,
+            imageURL: this.state.imageURL,
+            rating: -1,
+            notes: ""
+        }
+        RecipeManager.saveRecipe(newRecipeObj)
+            .then(this.setState({
+                saveButtonText: "Saved",
+                disabled: true
+            }))
     }
 
     componentDidMount() {
@@ -42,7 +62,7 @@ export default class RecipeCard extends Component {
                 <div className='recipeResult__div'>
                     <div className='row'>
                         <a href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        <button>Save</button>
+                        <button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</button>
                     </div>
                     <div className="row">
                         <p>{this.state.description}</p>
@@ -59,7 +79,7 @@ export default class RecipeCard extends Component {
                 <div className='recipeResult__div'>
                     <div className='row'>
                         <a href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        <button>Save</button>
+                        <button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</button>
                     </div>
                     <div className="row">
                         <p>{this.state.description}</p>
