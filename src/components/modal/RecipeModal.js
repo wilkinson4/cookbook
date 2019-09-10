@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RecipeManager from '../../modules/RecipeManager';
-import { Modal, Delete, Content, Textarea, Button, Input, Field } from 'rbx';
+import { Modal, Delete, Content, Textarea, Button, Input, Field, Message } from 'rbx';
 
 export default class RecipeModal extends Component {
     state = {
@@ -8,25 +8,33 @@ export default class RecipeModal extends Component {
         link: "",
         description: "",
         imageURL: "",
+        displayError: "none"
     }
     handleFieldChange = (event) => {
-        this.setState({[event.target.id]: event.target.value})
+        this.setState({ [event.target.id]: event.target.value })
     }
     saveRecipe = () => {
-        const newRecipeObj = {
-            title: this.state.title,
-            link: this.state.recipeLink,
-            userId: parseInt(sessionStorage.getItem("activeUser")),
-            description: this.state.description,
-            imageURL: this.state.imageURL,
-            rating: -1,
-            notes: ""
+        if (this.state.title === "" || this.state.link === "" || this.state.description === "") {
+            this.setState({displayError: "block"})
+        } else {
+            const newRecipeObj = {
+                title: this.state.title,
+                link: this.state.recipeLink,
+                userId: parseInt(sessionStorage.getItem("activeUser")),
+                description: this.state.description,
+                imageURL: this.state.imageURL,
+                rating: -1,
+                notes: ""
+            }
+            RecipeManager.saveRecipe(newRecipeObj)
+                .then(this.props.history.push('/recipes'))
         }
-        RecipeManager.saveRecipe(newRecipeObj)
-            .then(this.props.history.push('/recipes'))
     }
 
     render() {
+        const displayErrorMessage = {
+            display: this.state.displayError
+        }
         return (
             <Modal active={this.props.active}>
                 <Modal.Background onClick={this.props.toggleModal} />
@@ -37,6 +45,14 @@ export default class RecipeModal extends Component {
                     </Modal.Card.Head>
                     <Modal.Card.Body>
                         <Content>
+                            <Message color="danger" style={displayErrorMessage}>
+                                <Message.Header>
+                                    <p>Error</p>
+                                </Message.Header>
+                                <Message.Body>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </Message.Body>
+                            </Message>
                             <Field>
                                 <Input type='text' id="title" onChange={this.handleFieldChange} placeholder='recipe title'></Input>
                             </Field>

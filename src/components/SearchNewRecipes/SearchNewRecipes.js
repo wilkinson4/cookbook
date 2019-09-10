@@ -37,7 +37,7 @@ export default class SearchNewRecipes extends Component {
             <>
                 <NavBar />
                 <main >
-                    <RecipeModal toggleModal={this.toggleModal} active={this.state.active} {...this.props}/>
+                    {this.state.active && <RecipeModal toggleModal={this.toggleModal} active={this.state.active} {...this.props}/>}
                     <h1 className='h1'>Google for Recipes</h1>
                     <input type='text' placeholder='search for a recipe' onKeyPress={this.handleKeyPress} />
                     <p>or</p>
