@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RecipeManager from '../../modules/RecipeManager';
 import './RecipeCard.css'
+import { Button } from 'rbx';
 
 export default class RecipeCard extends Component {
     state = {
@@ -62,7 +63,7 @@ export default class RecipeCard extends Component {
                 <div className='recipeResult__div'>
                     <div className='row'>
                         <a href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        <button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</button>
+                        <Button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</Button>
                     </div>
                     <div className="row">
                         <p>{this.state.description}</p>
@@ -79,7 +80,7 @@ export default class RecipeCard extends Component {
                 <div className='recipeResult__div'>
                     <div className='row'>
                         <a href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        <button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</button>
+                        <Button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</Button>
                     </div>
                     <div className="row">
                         <p>{this.state.description}</p>

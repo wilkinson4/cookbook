@@ -3,6 +3,7 @@ import RecipeList from './RecipeList';
 import GoogleRecipeManager from '../../modules/GoogleRecipeManager';
 import NavBar from '../nav/Navbar';
 import {Button} from 'rbx';
+import RecipeModal from '../modal/RecipeModal';
 
 
 export default class SearchNewRecipes extends Component {
@@ -24,16 +25,23 @@ export default class SearchNewRecipes extends Component {
         this.setState({ active: !active });
     }
 
+    toggleModal = () => {
+        this.setState({
+            active: !this.state.active
+        })
+    }
+
 
     render() {
         return (
             <>
                 <NavBar />
                 <main >
+                    <RecipeModal toggleModal={this.toggleModal} active={this.state.active} {...this.props}/>
                     <h1 className='h1'>Google for Recipes</h1>
                     <input type='text' placeholder='search for a recipe' onKeyPress={this.handleKeyPress} />
                     <p>or</p>
-                    <Button>Add Your Own</Button>
+                    <Button onClick={this.toggleModal}>Add Your Own</Button>
                     <RecipeList
                         recipeResults={this.state.recipeResults}
                         {...this.props}
