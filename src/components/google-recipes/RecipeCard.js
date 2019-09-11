@@ -59,7 +59,6 @@ export default class RecipeCard extends Component {
     render() {
         const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
         const activeUsersRecipes = this.props.recipesFromAPI.filter(recipe => recipe.userId === activeUserId)
-        console.log(activeUsersRecipes)
         // check if the image exists in the Google Results and render an image if it does
         if (this.state.imageURL !== "" && this.state.imageURL !== undefined) {
             return (

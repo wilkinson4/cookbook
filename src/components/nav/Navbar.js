@@ -23,6 +23,8 @@ export default class NavBar extends Component {
                     <Navbar.Segment align="start">
                         <Navbar.Item href="/">Home</Navbar.Item>
                         <Navbar.Divider />
+                        <Navbar.Item href="/recipes">View Your Recipes</Navbar.Item>
+                        <Navbar.Divider />
                         <Navbar.Item href="/login" onClick={this.logout}>
                             Logout
                         </Navbar.Item>
