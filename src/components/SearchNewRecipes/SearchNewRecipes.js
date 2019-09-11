@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RecipeList from './RecipeList';
 import GoogleRecipeManager from '../../modules/GoogleRecipeManager';
+import RecipeManager from '../../modules/RecipeManager'
 import NavBar from '../nav/Navbar';
 import { Button, Input } from 'rbx';
 import RecipeModal from '../modal/RecipeModal';
@@ -8,15 +9,16 @@ import RecipeModal from '../modal/RecipeModal';
 
 export default class SearchNewRecipes extends Component {
     state = {
-        recipeResults: [],
+        recipeResultsFromGoogle: [],
+        recipesFromAPI: [],
         active: false
     }
 
     handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             GoogleRecipeManager.getRecipesFromGoogle(event.target.value)
-                .then(recipeResults => {
-                    this.setState({ recipeResults: recipeResults.items })
+                .then(recipeResultsFromGoogle => {
+                    this.setState({ recipeResultsFromGoogle: recipeResultsFromGoogle.items })
                 })
         }
     }
@@ -30,7 +32,15 @@ export default class SearchNewRecipes extends Component {
             active: !this.state.active
         })
     }
-
+    getRecipesFromAPI = () => {
+        RecipeManager.getAll()
+        .then(recipesInAPI => {
+            this.setState({recipesFromAPI: recipesInAPI})
+        })
+    }
+    componentDidMount() {
+        this.getRecipesFromAPI()
+    }
 
     render() {
         return (
@@ -44,7 +54,8 @@ export default class SearchNewRecipes extends Component {
                     <p>or</p>
                     <Button onClick={this.toggleModal}>Add Your Own</Button>
                     <RecipeList
-                        recipeResults={this.state.recipeResults}
+                        recipeResults={this.state.recipeResultsFromGoogle}
+                        recipesFromAPI={this.state.recipesFromAPI}
                         {...this.props}
                     />
                 </main>
