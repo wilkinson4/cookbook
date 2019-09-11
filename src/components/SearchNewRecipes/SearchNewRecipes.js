@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import RecipeList from './RecipeList';
 import GoogleRecipeManager from '../../modules/GoogleRecipeManager';
 import NavBar from '../nav/Navbar';
-import {Button} from 'rbx';
+import { Button, Input } from 'rbx';
 import RecipeModal from '../modal/RecipeModal';
 
 
@@ -36,10 +36,11 @@ export default class SearchNewRecipes extends Component {
         return (
             <>
                 <NavBar />
-                <main >
-                    {this.state.active && <RecipeModal toggleModal={this.toggleModal} active={this.state.active} {...this.props}/>}
-                    <h1 className='h1'>Google for Recipes</h1>
-                    <input type='text' placeholder='search for a recipe' onKeyPress={this.handleKeyPress} />
+                <main className='has-text-centered section' >
+                    {/* Displays the modal if this.state.active === true */}
+                    {this.state.active && <RecipeModal toggleModal={this.toggleModal} active={this.state.active} {...this.props} />}
+                    <h1 className='h1 is-size-3-mobile'>Google for Recipes</h1>
+                    <Input type='text' placeholder='search for a recipe' onKeyPress={this.handleKeyPress} />
                     <p>or</p>
                     <Button onClick={this.toggleModal}>Add Your Own</Button>
                     <RecipeList

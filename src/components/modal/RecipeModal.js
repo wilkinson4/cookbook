@@ -8,18 +8,33 @@ export default class RecipeModal extends Component {
         link: "",
         description: "",
         imageURL: "",
-        displayError: "none"
+        displayError: "none",
+        errorMessage: ""
     }
     handleFieldChange = (event) => {
         this.setState({ [event.target.id]: event.target.value })
     }
     saveRecipe = () => {
+        const urlValidation = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\\.-]+)+[\w\-\\._~:/?#[\]@!\\$&'\\(\\)\\*\\+,;=.]+$/gm
         if (this.state.title === "" || this.state.link === "" || this.state.description === "") {
-            this.setState({displayError: "block"})
+            this.setState({
+                displayError: "block",
+                errorMessage: "Please fill out all fields."
+            })
+        } else if(!urlValidation.test(this.state.link)){
+            this.setState({
+                displayError: "block",
+                errorMessage: "Please enter a valid link address."
+            })
+        } else if(this.state.imageURL.length > 0 && !urlValidation.test(this.state.imageURL)) {
+            this.setState({
+                displayError: "block",
+                errorMessage: "Please enter a valid image link address."
+            })
         } else {
             const newRecipeObj = {
                 title: this.state.title,
-                link: this.state.recipeLink,
+                link: this.state.link,
                 userId: parseInt(sessionStorage.getItem("activeUser")),
                 description: this.state.description,
                 imageURL: this.state.imageURL,
@@ -50,7 +65,7 @@ export default class RecipeModal extends Component {
                                     <p>Error</p>
                                 </Message.Header>
                                 <Message.Body>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    <p>{this.state.errorMessage}</p>
                                 </Message.Body>
                             </Message>
                             <Field>

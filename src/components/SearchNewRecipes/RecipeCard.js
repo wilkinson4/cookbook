@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import RecipeManager from '../../modules/RecipeManager';
 import './RecipeCard.css'
-import { Button } from 'rbx';
+import { Icon } from 'rbx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default class RecipeCard extends Component {
     state = {
@@ -10,10 +12,10 @@ export default class RecipeCard extends Component {
         description: "",
         recipeLink: "",
         saveButtonText: "Save",
-        disabled: false
+        isSaved: false,
     }
 
-    saveRecipe = (event) => {
+    saveRecipe = () => {
         const newRecipeObj = {
             title: this.state.title,
             link: this.state.recipeLink,
@@ -26,7 +28,7 @@ export default class RecipeCard extends Component {
         RecipeManager.saveRecipe(newRecipeObj)
             .then(this.setState({
                 saveButtonText: "Saved",
-                disabled: true
+                isSaved: true
             }))
     }
 
@@ -60,34 +62,48 @@ export default class RecipeCard extends Component {
         // check if the image exists in the Google Results and render an image if it does
         if (this.state.imageURL !== "" && this.state.imageURL !== undefined) {
             return (
-                <div className='recipeResult__div'>
-                    <div className='row'>
-                        <a href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        <Button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</Button>
+                <div className='recipeResult__div card'>
+                    <div className='card-header'>
+                        <a className='card-title' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
+                        {!this.state.isSaved
+                            ? <Icon onClick={this.saveRecipe}>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </Icon>
+                            : <Icon>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </Icon>
+                        }
                     </div>
-                    <div className="row">
+                    <div className="-card-content">
                         <p>{this.state.description}</p>
                         <img className='recipeThumbnail__img' src={this.state.imageURL} alt="Recipe Thumbnail"></img>
                     </div>
-                    <div className="row">
+                    <footer className="card-footer">
 
-                    </div>
+                    </footer>
                 </div>
             )
             // otherwise render a card without an image
         } else {
             return (
-                <div className='recipeResult__div'>
-                    <div className='row'>
-                        <a href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        <Button onClick={this.saveRecipe} disabled={this.state.disabled}>{this.state.saveButtonText}</Button>
+                <div className='recipeResult__div card'>
+                    <div className='card-header'>
+                        <a className='card-title' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
+                        {!this.state.isSaved
+                            ? <Icon onClick={this.saveRecipe}>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </Icon>
+                            : <Icon>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </Icon>
+                        }
                     </div>
-                    <div className="row">
+                    <div className="card-content">
                         <p>{this.state.description}</p>
                     </div>
-                    <div className="row">
+                    <footer className="card-footer">
 
-                    </div>
+                    </footer>
                 </div>
             )
         }

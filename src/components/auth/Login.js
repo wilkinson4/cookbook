@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import UserManager from '../../modules/UserManager';
+import { Input, Button } from 'rbx';
 
 export default class LoginForm extends Component {
     state = {
@@ -52,22 +53,22 @@ export default class LoginForm extends Component {
 
     render() {
         return (
-            <form className='login__form'>
-                <h1 className='loginForm__h1'>CookBook</h1>
-                <fieldset>
-                    <input type='email' id='loginEmail' placeholder='email' value={this.state.loginEmail} onChange={this.handleChange} />
+            <form className='login__form section has-text-centered'>
+                <h1 className='loginForm__h1 is-size-3-mobile'>CookBook</h1>
+                <fieldset className='field'>
+                    <Input type='email' id='loginEmail' placeholder='email' value={this.state.loginEmail} onChange={this.handleChange} />
                 </fieldset>
-                <fieldset>
-                    <input type='password' id='loginPassword' placeholder='password' value={this.state.loginPassword} onChange={this.handleChange} />
+                <fieldset className='field'>
+                    <Input type='password' id='loginPassword' placeholder='password' value={this.state.loginPassword} onChange={this.handleChange} />
                 </fieldset>
-                <fieldset>
-                    <input type='submit' disabled={this.state.loadingStatus} id='loginSubmit__input' value='Login' onClick={this.handleSubmit} />
+                <fieldset className='field'>
+                    <Button className='button is-link' disabled={this.state.loadingStatus} id='loginSubmit__button' onClick={this.handleSubmit}>Login</Button>
                 </fieldset>
-                <fieldset>
+                <fieldset className='field'>
                     <p>or</p>
                 </fieldset>
-                <fieldset>
-                    <input type="submit" onClick={this.redirectToRegister} value="Sign Up" />
+                <fieldset className='field'>
+                    <Button className='button is-link' onClick={this.redirectToRegister}>Sign Up</Button>
                 </fieldset>
             </form>
         )

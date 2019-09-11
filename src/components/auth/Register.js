@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import UserManager from '../../modules/UserManager';
+import { Input, Button } from 'rbx'
 
 export default class RegisterForm extends Component {
     state = {
@@ -23,7 +24,7 @@ export default class RegisterForm extends Component {
         }
         if (this.state.registerUsername.length === 0 || this.state.registerEmail.length === 0 || this.state.registerPassword.length === 0) {
             window.alert('Please fill out all fields')
-        } else if(!emailValidation.test(userObj.email)) {
+        } else if (!emailValidation.test(userObj.email)) {
             window.alert("Invalid email format")
         }
         else {
@@ -50,25 +51,25 @@ export default class RegisterForm extends Component {
 
     render() {
         return (
-            <form className='register__form'>
-                <h1 className='registerForm__h1'>Join CookBook</h1>
-                <fieldset>
-                    <input type='email' id='registerEmail' placeholder='email' value={this.state.registerEmail} onChange={this.handleChange} />
+            <form className='register__form section has-text-centered'>
+                <h1 className='registerForm__h1 is-size-3-mobile'>Join CookBook</h1>
+                <fieldset className='field'>
+                    <Input type='email' id='registerEmail' placeholder='email' value={this.state.registerEmail} onChange={this.handleChange} />
                 </fieldset>
-                <fieldset>
-                    <input type='text' id='registerUsername' placeholder='username' value={this.state.registerUsername} onChange={this.handleChange} />
+                <fieldset className='field'>
+                    <Input type='text' id='registerUsername' placeholder='username' value={this.state.registerUsername} onChange={this.handleChange} />
                 </fieldset>
-                <fieldset>
-                    <input type='password' id='registerPassword' placeholder='password' value={this.state.registerPassword} onChange={this.handleChange} />
+                <fieldset className='field'>
+                    <Input type='password' id='registerPassword' placeholder='password' value={this.state.registerPassword} onChange={this.handleChange} />
                 </fieldset>
-                <fieldset>
-                    <input type='submit' disabled={this.state.loadingStatus} id='registerSubmit__input' value='Register' onClick={this.handleSubmit} />
+                <fieldset className='field'>
+                    <Button className='button is-link' disabled={this.state.loadingStatus} id='registerSubmit__button' onClick={this.handleSubmit}>Register</Button>
                 </fieldset>
-                <fieldset>
+                <fieldset className='field'>
                     <p>Already a user?</p>
                 </fieldset>
-                <fieldset>
-                    <input type="submit" onClick={this.redirectToLogin} value="Log In" />
+                <fieldset className='field'>
+                    <Button className='button is-link' onClick={this.redirectToLogin}>Login</Button>
                 </fieldset>
             </form>
         )
