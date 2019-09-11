@@ -11,7 +11,6 @@ export default class RecipeCard extends Component {
         imageURL: "",
         description: "",
         recipeLink: "",
-        saveButtonText: "Save",
         isSaved: false,
     }
 
@@ -27,7 +26,6 @@ export default class RecipeCard extends Component {
         }
         RecipeManager.saveRecipe(newRecipeObj)
             .then(this.setState({
-                saveButtonText: "Saved",
                 isSaved: true
             }))
     }
@@ -59,23 +57,22 @@ export default class RecipeCard extends Component {
     }
 
     render() {
-        const isRecipeSavedInApi = this.props.recipesFromAPI.find(recipe => this.state.title === recipe.title)
-        const activeUser = parseInt(sessionStorage.getItem('activeUser'))
+        const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
+        const activeUsersRecipes = this.props.recipesFromAPI.filter(recipe => recipe.userId === activeUserId)
+        console.log(activeUsersRecipes)
         // check if the image exists in the Google Results and render an image if it does
         if (this.state.imageURL !== "" && this.state.imageURL !== undefined) {
             return (
                 <div className='recipeResult__div card'>
                     <div className='card-header'>
                         <a className='card-title' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        {!this.state.isSaved & isRecipeSavedInApi === undefined
-                            ? <Icon onClick={this.saveRecipe}>
+                        {activeUsersRecipes.find(recipe => recipe.title === this.state.title) !== undefined || this.state.isSaved
+                            ? <Icon>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </Icon>
+                            : <Icon onClick={this.saveRecipe}>
                                 <FontAwesomeIcon icon={faPlus} />
                             </Icon>
-                            : isRecipeSavedInApi.userId === activeUser
-                                ? <Icon>
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </Icon>
-                                : null
                         }
                     </div>
                     <div className="-card-content">
@@ -93,15 +90,13 @@ export default class RecipeCard extends Component {
                 <div className='recipeResult__div card'>
                     <div className='card-header'>
                         <a className='card-title' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        {!this.state.isSaved & isRecipeSavedInApi === undefined
-                            ? <Icon onClick={this.saveRecipe}>
+                        {activeUsersRecipes.find(recipe => recipe.title === this.state.title) !== undefined || this.state.isSaved
+                            ? <Icon>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </Icon>
+                            : <Icon onClick={this.saveRecipe}>
                                 <FontAwesomeIcon icon={faPlus} />
                             </Icon>
-                            : isRecipeSavedInApi.userId === activeUser
-                                ? <Icon>
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </Icon>
-                                : null
                         }
                     </div>
                     <div className="card-content">
