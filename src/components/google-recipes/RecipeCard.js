@@ -95,7 +95,7 @@ export default class RecipeCard extends Component {
                             </Icon>
                         }
                     </div>
-                    <div className="-card-content">
+                    <div className="card-content">
                         <Column.Group breakpoint='mobile'>
                             <Column className='has-text-left'>
                                 <p>{this.state.description && this.state.description.slice(0, 150)}...</p>
@@ -125,7 +125,7 @@ export default class RecipeCard extends Component {
                             </Icon>
                         }
                     </div>
-                    <div className="has-text-left">
+                    <div className="has-text-left card-content">
                         <p>{this.state.descripttion && this.state.description.slice(0, 150)}...</p>
                     </div>
                     <footer className="card-footer">
