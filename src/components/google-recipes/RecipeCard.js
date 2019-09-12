@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import RecipeManager from '../../modules/RecipeManager';
 import './RecipeCard.css'
-import { Icon } from 'rbx';
+import { Icon, Column } from 'rbx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,6 +11,7 @@ export default class RecipeCard extends Component {
         imageURL: "",
         description: "",
         recipeLink: "",
+        cookTime: "",
         isSaved: false,
     }
 
@@ -21,6 +22,7 @@ export default class RecipeCard extends Component {
             userId: parseInt(sessionStorage.getItem("activeUser")),
             description: this.state.description,
             imageURL: this.state.imageURL,
+            cookTime: this.state.cookTime,
             rating: -1,
             notes: ""
         }
@@ -30,30 +32,49 @@ export default class RecipeCard extends Component {
             }))
     }
 
-    componentDidMount() {
-        // check the google api results to see if the image properties below exist and if they do set them to the imageURL in state along with the other information needed in a card
-        if (this.props.recipe.pagemap.hasOwnProperty('cse_image')) {
+    checkCookTimeFromGoogle = (imageURL) => {
+
+        if (this.props.recipe.pagemap.hasOwnProperty('recipe')) {
             this.setState({
                 title: this.props.recipe.title,
-                imageURL: this.props.recipe.pagemap.cse_image[0].src,
+                imageURL: imageURL,
                 description: this.props.recipe.pagemap.metatags[0]['og:description'],
-                recipeLink: this.props.recipe.link
+                cookTime: this.props.recipe.pagemap.recipe[0]['totaltime'],
+                recipeLink: this.props.recipe.link,
             })
-        } else if (this.props.recipe.pagemap.hasOwnProperty('cse_thumbnail')) {
+        } else if (this.props.recipe.pagemap.metatags[0].hasOwnProperty('ncba:recipetime')) {
             this.setState({
                 title: this.props.recipe.title,
-                imageURL: this.props.recipe.pagemap.cse_thumbnail[0].src,
+                imageURL: imageURL,
                 description: this.props.recipe.pagemap.metatags[0]['og:description'],
-                recipeLink: this.props.recipe.link
+                cookTime: this.props.recipe.pagemap.metatags[0]['ncba:recipetime'],
+                recipeLink: this.props.recipe.link,
             })
         } else {
             this.setState({
                 title: this.props.recipe.title,
-                imageURL: this.props.recipe.pagemap.metatags[0]['og:image'],
+                imageURL: imageURL,
                 description: this.props.recipe.pagemap.metatags[0]['og:description'],
-                recipeLink: this.props.recipe.link
+                cookTime: "",
+                recipeLink: this.props.recipe.link,
             })
         }
+    }
+
+    checkImageDataFromGoogle = () => {
+        // check the google api results to see if the image properties below exist and if they do set them to the imageURL in state along with the other information needed in a card
+        if (this.props.recipe.pagemap.hasOwnProperty('cse_image')) {
+            this.checkCookTimeFromGoogle(this.props.recipe.pagemap.cse_image[0].src)
+        } else if (this.props.recipe.pagemap.hasOwnProperty('cse_thumbnail')) {
+            this.checkCookTimeFromGoogle(this.props.recipe.pagemap.cse_thumbnail[0].src)
+        } else {
+            this.checkCookTimeFromGoogle(this.props.recipe.pagemap.metatags[0]['og:image'])
+        }
+    }
+
+
+    componentDidMount() {
+        this.checkImageDataFromGoogle()
     }
 
     render() {
@@ -75,8 +96,14 @@ export default class RecipeCard extends Component {
                         }
                     </div>
                     <div className="-card-content">
-                        <p>{this.state.description}</p>
-                        <img className='recipeThumbnail__img' src={this.state.imageURL} alt="Recipe Thumbnail"></img>
+                        <Column.Group breakpoint='mobile'>
+                            <Column className='has-text-left'>
+                                <p>{this.state.description && this.state.description.slice(0, 150)}...</p>
+                            </Column>
+                            <Column>
+                                <img className='recipeThumbnail__img' src={this.state.imageURL} alt="Recipe Thumbnail"></img>
+                            </Column>
+                        </Column.Group>
                     </div>
                     <footer className="card-footer">
 
@@ -98,8 +125,8 @@ export default class RecipeCard extends Component {
                             </Icon>
                         }
                     </div>
-                    <div className="card-content">
-                        <p>{this.state.description}</p>
+                    <div className="has-text-left">
+                        <p>{this.state.descripttion && this.state.description.slice(0, 150)}...</p>
                     </div>
                     <footer className="card-footer">
 

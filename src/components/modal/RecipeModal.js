@@ -8,6 +8,7 @@ export default class RecipeModal extends Component {
         link: "",
         description: "",
         imageURL: "",
+        cookTime: "",
         displayError: "none",
         errorMessage: ""
     }
@@ -38,6 +39,7 @@ export default class RecipeModal extends Component {
                 userId: parseInt(sessionStorage.getItem("activeUser")),
                 description: this.state.description,
                 imageURL: this.state.imageURL,
+                cookTime: "",
                 rating: -1,
                 notes: ""
             }

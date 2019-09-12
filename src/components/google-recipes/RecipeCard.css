@@ -1,4 +1,17 @@
 .recipeThumbnail__img {
-    height: 70px;
-    width: 100px;
+    height: 100px;
+    width: auto;
+    margin-top: 10px;
+}
+
+.card {
+    margin: 15px 0;
+}
+
+.card-header {
+    justify-content: space-between;
+}
+
+.columns {
+    align-items: center;
 }
