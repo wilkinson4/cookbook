@@ -1,0 +1,8 @@
+.cardContent__div {
+    text-align: center;
+}
+
+/* Adjusts the size of the rating stars only in the modal*/
+.cardContent__div {
+    font-size: 50px
+}

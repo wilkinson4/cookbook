@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Route, Redirect } from "react-router-dom";
 import LoginForm from "./auth/Login"
 import RegisterForm from "./auth/Register"
-import SearchNewRecipes from "./SearchNewRecipes/SearchNewRecipes"
+import SearchNewRecipes from "./google-recipes/SearchNewRecipes"
+import UserRecipeList from './user-recipes/UserRecipeList';
 
 export default class ApplicationViews extends Component {
 
@@ -22,6 +23,14 @@ export default class ApplicationViews extends Component {
                 <Route path="/login" component={LoginForm} />
                 {/* Render register form */}
                 <Route path="/register" component={RegisterForm} />
+
+                <Route
+                    exact path="/recipes" render={props => {
+                        return this.isAuthenticated()
+                            ? <UserRecipeList {...props} />
+                            : <Redirect to='login' />
+                    }}
+                />
             </>
         )
     }

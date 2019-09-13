@@ -5,8 +5,8 @@ const RecipeData = {
         return fetch(`${remoteURL}/recipes/${id}`)
             .then(result => result.json())
     },
-    getRecipeFromSearch(recipeObjProperty, string) {
-        return fetch(`${remoteURL}/recipes?${recipeObjProperty}=${string}`)
+    getRecipesFromSearch(recipeObjProperty, string, abortControllerObj) {
+        return fetch(`${remoteURL}/recipes?${recipeObjProperty}=${string}`, abortControllerObj)
             .then(result => result.json())
     },
     getAll() {
@@ -20,6 +20,22 @@ const RecipeData = {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(recipe)
+        })
+            .then(result => result.json())
+    },
+    deleteRecipe(recipeId) {
+        return fetch(`${remoteURL}/recipes/${recipeId}`, {
+            method: "DELETE"
+        })
+            .then(result => result.json())
+    },
+    updateRecipeRating(recipeWithUpdatedRating) {
+        return fetch(`${remoteURL}/recipes/${recipeWithUpdatedRating.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(recipeWithUpdatedRating)
         })
             .then(result => result.json())
     }

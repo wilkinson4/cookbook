@@ -1,0 +1,9 @@
+/* Separates the rating and the cooktime in the user recipe cards */
+.card-footer > div {
+  width: 100%;
+  justify-content: space-around;
+}
+
+.detailsImageColumn__div button{
+  margin-bottom: 15px;
+}
