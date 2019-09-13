@@ -5,8 +5,8 @@ const RecipeData = {
         return fetch(`${remoteURL}/recipes/${id}`)
             .then(result => result.json())
     },
-    getRecipesFromSearch(recipeObjProperty, string, abortControllerObj) {
-        return fetch(`${remoteURL}/recipes?${recipeObjProperty}=${string}`, abortControllerObj)
+    getRecipesFromSearch(recipeObjProperty, string) {
+        return fetch(`${remoteURL}/recipes?${recipeObjProperty}=${string}`)
             .then(result => result.json())
     },
     getAll() {

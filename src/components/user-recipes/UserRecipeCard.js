@@ -53,7 +53,7 @@ export default class UserRecipeCard extends Component {
                                 <p>{this.props.recipe.description.slice(0, 150)}...</p>
                             </Column>
                             <Column className='detailsImageColumn__div'>
-                                <Button>View Details</Button>
+                                <Button onClick={() => { this.props.history.push(`/recipes/${this.props.recipe.id}`) }}>View Details</Button>
                                 {
                                     this.props.recipe.imageURL !== "" && <img className='recipeThumbnail__img' src={this.props.recipe.imageURL} alt='Recipe Thumbnail'></img>
                                 }
