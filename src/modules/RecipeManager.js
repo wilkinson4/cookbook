@@ -28,6 +28,16 @@ const RecipeData = {
             method: "DELETE"
         })
             .then(result => result.json())
+    },
+    updateRecipeRating(recipeWithUpdatedRating) {
+        return fetch(`${remoteURL}/recipes/${recipeWithUpdatedRating.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(recipeWithUpdatedRating)
+        })
+            .then(result => result.json())
     }
 }
 

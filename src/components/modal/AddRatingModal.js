@@ -1,31 +1,61 @@
 import React, { Component } from 'react';
-import { Modal, Delete, Button, Content, Icon } from 'rbx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as faStarOutline } from '@fortawesome/free-regular-svg-icons'
-import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
+import { Modal, Delete, Button, Content } from 'rbx';
+import './AddRatingModal.css';
+import StarRatingComponent from 'react-star-rating-component';
+import RecipeManger from '../../modules/RecipeManager'
 
 export default class AddRatingModal extends Component {
+    state = {
+        rating: 1
+    }
+
+    onStarClick(nextValue, prevValue, name) {
+        this.setState({ rating: nextValue });
+    }
+
+    saveRating = () => {
+        const updatedRecipeWithRating = {
+            title: this.props.recipe.title,
+            link: this.props.recipe.link,
+            userId: this.props.recipe.userId,
+            description: this.props.recipe.description,
+            imageURL: this.props.recipe.imageURL,
+            rating: this.state.rating,
+            notes: this.props.recipe.notes,
+            cookTime: this.props.recipe.cookTime,
+            id: this.props.recipe.id
+        }
+
+        RecipeManger.updateRecipeRating(updatedRecipeWithRating)
+            .then(this.props.toggleAddRatingModal)
+            .then(this.props.getAllRecipes)
+    }
+
     render() {
+        const { rating } = this.state;
         return (
             <Modal active={this.props.active}>
-                <Modal.Background onClick={this.props.toggleModal} />
+                <Modal.Background onClick={this.props.toggleAddRatingModal} />
                 <Modal.Card>
                     <Modal.Card.Head>
                         <Modal.Card.Title>Add a rating</Modal.Card.Title>
-                        <Delete onClick={this.props.toggleModal} />
+                        <Delete onClick={this.props.toggleAddRatingModal} />
                     </Modal.Card.Head>
                     <Modal.Card.Body>
-                        <Content>
-                            <p>Rating Content</p>
-                            <Icon>
-                                <FontAwesomeIcon icon={faStarOutline} />
-                                <FontAwesomeIcon icon={faStarSolid} />
-                            </Icon>
+                        <Content className='cardContent__div'>
+                            <div>
+                                <StarRatingComponent
+                                    name="rate1"
+                                    starCount={5}
+                                    value={rating}
+                                    onStarClick={this.onStarClick.bind(this)}
+                                />
+                            </div>
                         </Content>
                     </Modal.Card.Body>
                     <Modal.Card.Foot>
-                        <Button color="success" onClick={this.onClick}>Save</Button>
-                        <Button onClick={this.props.toggleModal}>Cancel</Button>
+                        <Button color="success" onClick={this.saveRating}>Save</Button>
+                        <Button onClick={this.props.toggleAddRatingModal}>Cancel</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>
             </Modal>

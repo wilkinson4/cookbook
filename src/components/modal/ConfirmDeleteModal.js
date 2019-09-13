@@ -10,15 +10,15 @@ export default class ConfirmDeleteModal extends Component {
     render() {
         return (
             <Modal active={this.props.active}>
-                <Modal.Background onClick={this.props.toggleModal} />
+                <Modal.Background onClick={this.props.toggleDeleteModal} />
                 <Modal.Card>
                     <Modal.Card.Head>
                         <Modal.Card.Title>Are You Sure?</Modal.Card.Title>
-                        <Delete onClick={this.props.toggleModal} />
+                        <Delete onClick={this.props.toggleDeleteModal} />
                     </Modal.Card.Head>
                     <Modal.Card.Foot>
                         <Button color="success" onClick={this.onClick}>Yes</Button>
-                        <Button onClick={this.props.toggleModal}>No</Button>
+                        <Button onClick={this.props.toggleDeleteModal}>No</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>
             </Modal>
