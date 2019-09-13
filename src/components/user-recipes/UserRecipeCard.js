@@ -5,12 +5,14 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import RecipeManager from '../../modules/RecipeManager';
 import ConfirmDeleteModal from '../modal/ConfirmDeleteModal';
 import './UserRecipeCard.css';
+import AddRatingModal from '../modal/AddRatingModal';
 
 
 
 export default class UserRecipeCard extends Component {
     state = {
-        active: false
+        showDeleteModal: false,
+        showAddRatingModal: false
     }
 
     deleteRecipe = () => {
@@ -18,9 +20,15 @@ export default class UserRecipeCard extends Component {
             .then(this.props.getAllRecipes)
     }
 
-    toggleModal = () => {
+    toggleDeleteModal = () => {
         this.setState(() => {
-            return { active: !this.state.active }
+            return { showDeleteModal: !this.state.showDeleteModal }
+        })
+    }
+
+    toggleAddRatingModal = () => {
+        this.setState(() => {
+            return { showAddRatingModal: !this.state.showAddRatingModal }
         })
     }
 
@@ -28,12 +36,14 @@ export default class UserRecipeCard extends Component {
         return (
             <>
                 {/* Confirm Delete Modal */}
-                {this.state.active && <ConfirmDeleteModal active={this.state.active} toggleModal={this.toggleModal} deleteRecipe={this.deleteRecipe} />}
+                {this.state.showDeleteModal && <ConfirmDeleteModal active={this.state.showDeleteModal} toggleModal={this.toggleDeleteModal} deleteRecipe={this.deleteRecipe} />}
+                {/* Add Rating Modal */}
+                {this.state.showAddRatingModal && <AddRatingModal active={this.state.showAddRatingModal} toggleModal={this.toggleAddRatingModal} />}
                 <Card>
                     <Card.Header className='card-header has-text-left'>
                         <a className='card-title' href={this.props.recipe.recipeLink} target='_blank' rel='noopener noreferrer'>{this.props.recipe.title}</a>
                         <Icon onClick={this.toggleModal}>
-                            <FontAwesomeIcon icon={faTimes} />
+                            <FontAwesomeIcon icon={faTimes} size='xs'/>
                         </Icon>
                     </Card.Header>
                     <Card.Content>
@@ -43,14 +53,16 @@ export default class UserRecipeCard extends Component {
                             </Column>
                             <Column>
                                 <Button>View Details</Button>
-                                <img className='recipeThumbnail__img' src={this.props.recipe.imageURL} alt='Recipe Thumbnail'></img>
+                                {
+                                   this.props.recipe.imageURL !=="" && <img className='recipeThumbnail__img' src={this.props.recipe.imageURL} alt='Recipe Thumbnail'></img>
+                                }
                             </Column>
                         </Column.Group>
                     </Card.Content>
                     <Card.Footer>
                         <Column.Group breakpoint='mobile'>
                             <Column>
-                                <Button>Add Rating</Button>
+                                <Button onClick={this.toggleAddRatingModal}>Add Rating</Button>
                             </Column>
                             <Column>
                                 <div className='cookTimeContainer__div'>
