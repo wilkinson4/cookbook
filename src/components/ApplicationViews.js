@@ -29,6 +29,7 @@ export default class ApplicationViews extends Component {
 
     isAuthenticated = () => sessionStorage.getItem("activeUser") !== null
 
+
     render() {
         return (
             <>
@@ -59,7 +60,11 @@ export default class ApplicationViews extends Component {
                 <Route
                     path="/recipes/:recipeId(\d+)" render={props => {
                         return this.isAuthenticated()
-                            ? <RecipeDetails {...props} />
+                            ? <RecipeDetails
+                                usersRecipes={this.state.usersRecipes}
+                                getAllRecipes={this.getAllRecipes}
+                                {...props}
+                            />
                             : <Redirect to='login' />
                     }}
                 />
