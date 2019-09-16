@@ -29,6 +29,9 @@ export default class UserRecipeList extends Component {
                         {this.props.usersRecipes.map(recipe =>
                             <UserRecipeCard
                                 key={recipe.id}
+                                currentRecipe={this.props.currentRecipe}
+                                setCurrentRecipe={this.setCurrentRecipe}
+                                usersRecipes={this.props.usersRecipes}
                                 recipe={recipe}
                                 {...this.props}
                                 getAllRecipes={this.props.getAllRecipes}

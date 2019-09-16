@@ -98,7 +98,7 @@ export default class RecipeCard extends Component {
                     <div className="card-content">
                         <Column.Group breakpoint='mobile'>
                             <Column className='has-text-left'>
-                                <p>{this.state.description && this.state.description.slice(0, 150)}...</p>
+                                <p className='is-size-7'>{this.state.description && this.state.description.slice(0, 150)}...</p>
                             </Column>
                             <Column>
                                 <img className='recipeThumbnail__img' src={this.state.imageURL} alt="Recipe Thumbnail"></img>
@@ -126,7 +126,7 @@ export default class RecipeCard extends Component {
                         }
                     </div>
                     <div className="has-text-left card-content">
-                        <p>{this.state.descripttion && this.state.description.slice(0, 150)}...</p>
+                        <p className='is-size-7'>{this.state.descripttion && this.state.description.slice(0, 150)}...</p>
                     </div>
                     <footer className="card-footer">
 

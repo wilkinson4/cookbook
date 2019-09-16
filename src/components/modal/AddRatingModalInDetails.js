@@ -28,8 +28,10 @@ export default class AddRatingModal extends Component {
         }
 
         RecipeManger.updateRecipe(updatedRecipeWithRating)
-        .then(this.props.getAllRecipes)
-        .then(this.props.toggleAddRatingModal)
+            .then(updatedRecipe => {
+                this.props.setCurrentRecipe(updatedRecipe)
+            })
+            .then(this.props.toggleAddRatingModal)
     }
 
     render() {

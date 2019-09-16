@@ -29,13 +29,13 @@ const RecipeData = {
         })
             .then(result => result.json())
     },
-    updateRecipeRating(recipeWithUpdatedRating) {
-        return fetch(`${remoteURL}/recipes/${recipeWithUpdatedRating.id}`, {
+    updateRecipe(updatedRecipe) {
+        return fetch(`${remoteURL}/recipes/${updatedRecipe.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(recipeWithUpdatedRating)
+            body: JSON.stringify(updatedRecipe)
         })
             .then(result => result.json())
     }
