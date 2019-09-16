@@ -7,6 +7,7 @@ import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import StarRatingComponent from 'react-star-rating-component';
 import SaveRecipeNotesModal from '../modal/ConfirmSaveModal';
 import ConfirmDeleteModal from '../modal/ConfirmDeleteModal'
+import EditNotesModal from '../modal/EditNotesModal';
 import RecipeManager from '../../modules/RecipeManager';
 import './RecipeDetails.css';
 import AddRatingModalInDetails from '../modal/AddRatingModalInDetails';
@@ -16,7 +17,8 @@ export default class RecipeDetails extends Component {
         notes: "",
         isSaveModalActive: false,
         isDeleteModalActive: false,
-        isRatingModalActive: false
+        isRatingModalActive: false,
+        isEditNotesModalActive: false
     }
 
     handleChange = (event) => {
@@ -33,8 +35,10 @@ export default class RecipeDetails extends Component {
 
     toggleRatingModal = () => {
         this.setState({ isRatingModalActive: !this.state.isRatingModalActive })
+    }
 
-
+    toggleEditNotesModal = () => {
+        this.setState({ isEditNotesModalActive: !this.state.isEditNotesModalActive })
     }
 
     saveRecipeNotes = () => {
@@ -52,10 +56,6 @@ export default class RecipeDetails extends Component {
         return RecipeManager.updateRecipe(updatedRecipe)
             .then(updatedRecipe => this.props.setCurrentRecipe(updatedRecipe))
             .then(this.toggleSaveModal)
-    }
-
-    editNotes = () => {
-        console.log('clicked')
     }
 
     deleteRecipeAndRedirect = () => {
@@ -103,6 +103,17 @@ export default class RecipeDetails extends Component {
                                 active={this.state.isRatingModalActive}
                                 recipe={this.props.currentRecipe}
                                 getAllRecipes={this.props.getAllRecipes}
+                            />
+                        }
+
+                        {
+                            this.state.isEditNotesModalActive &&
+                            <EditNotesModal 
+                                setCurrentRecipe={this.props.setCurrentRecipe}
+                                toggleEditNotesModal={this.toggleEditNotesModal}
+                                active={this.state.isEditNotesModalActive}
+                                currentRecipe={this.props.currentRecipe}
+                                recipeNotes={this.props.currentRecipe.notes}
                             />
                         }
 
@@ -166,7 +177,7 @@ export default class RecipeDetails extends Component {
                                         <p>Notes:</p>
                                     </Column>
                                     <Column className='has-text-right'>
-                                        <Icon onClick={this.editNotes}>
+                                        <Icon onClick={this.toggleEditNotesModal}>
                                             <FontAwesomeIcon icon={faEdit} size='xs' />
                                         </Icon>
                                     </Column>
