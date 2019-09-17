@@ -33,6 +33,11 @@ export default class UserRecipeCard extends Component {
         })
     }
 
+    viewRecipeDetails = () => {
+        this.props.setCurrentRecipe(this.props.recipe)
+        this.props.history.push(`/recipes/${this.props.recipe.id}`)
+    }
+
     render() {
         return (
             <>
@@ -50,10 +55,10 @@ export default class UserRecipeCard extends Component {
                     <Card.Content>
                         <Column.Group breakpoint='mobile'>
                             <Column className='has-text-left'>
-                                <p>{this.props.recipe.description.slice(0, 150)}...</p>
+                                <p className='is-size-7'>{this.props.recipe.description.slice(0, 150)}...</p>
                             </Column>
                             <Column className='detailsImageColumn__div'>
-                                <Button>View Details</Button>
+                                <Button onClick={this.viewRecipeDetails}>View Details</Button>
                                 {
                                     this.props.recipe.imageURL !== "" && <img className='recipeThumbnail__img' src={this.props.recipe.imageURL} alt='Recipe Thumbnail'></img>
                                 }
@@ -84,7 +89,7 @@ export default class UserRecipeCard extends Component {
                                     </div>
                                     <div>
                                         {this.props.recipe.cookTime !== ""
-                                            ? <p>{this.props.recipe.cookTime.split('PT')[1]}</p>
+                                            ? <p>{this.props.recipe.cookTime}</p>
                                             : <p>...</p>
                                         }
                                     </div>

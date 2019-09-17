@@ -1,39 +1,14 @@
 import React, { Component } from 'react';
-import RecipeManager from '../../modules/RecipeManager';
-import UserManager from '../../modules/UserManager';
 import NavBar from '../nav/Navbar';
 import { Input, Checkbox, Label } from 'rbx';
 import UserRecipeCard from './UserRecipeCard';
 
 
 export default class UserRecipeList extends Component {
-    state = {
-        usersRecipes: [],
-        users: [],
-    }
-
-    getAllRecipes = () => {
-        const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
-        return RecipeManager.getRecipesFromSearch('userId', activeUserId, {signal: this.abortController.signal})
-            .then(recipes => {
-                this.setState({ usersRecipes: recipes })
-            })
-    }
-
-    getAllUsers = () => {
-        return UserManager.getAll()
-            .then(users => this.setState({ users: users }))
-    }
-
-    abortController = new AbortController();
 
     componentDidMount() {
-        this.getAllRecipes()
-            .then(this.getAllUsers)
-    }
-
-    componentWillUnmount() {
-        this.abortController.abort()
+        this.props.getAllRecipes()
+            .then(this.props.getAllUsers)
     }
 
     render() {
@@ -51,12 +26,15 @@ export default class UserRecipeList extends Component {
                         </Label>
                     </section>
                     <section className='section'>
-                        {this.state.usersRecipes.map(recipe =>
+                        {this.props.usersRecipes.map(recipe =>
                             <UserRecipeCard
                                 key={recipe.id}
+                                currentRecipe={this.props.currentRecipe}
+                                setCurrentRecipe={this.setCurrentRecipe}
+                                usersRecipes={this.props.usersRecipes}
                                 recipe={recipe}
                                 {...this.props}
-                                getAllRecipes={this.getAllRecipes}
+                                getAllRecipes={this.props.getAllRecipes}
                                 toggleModal={this.toggleModal}
                             />
                         )}
