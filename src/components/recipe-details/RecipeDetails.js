@@ -10,12 +10,17 @@ import ConfirmDeleteModal from '../modal/ConfirmDeleteModal'
 import EditNotesModal from '../modal/EditNotesModal';
 import AddTagsModal from '../modal/AddTagsModal';
 import RecipeManager from '../../modules/RecipeManager';
+import TagsManager from '../../modules/TagsManager';
+import TagsRecipesManager from '../../modules/TagsRecipesManager';
 import './RecipeDetails.css';
 import AddRatingModalInDetails from '../modal/AddRatingModalInDetails';
 
 export default class RecipeDetails extends Component {
     state = {
         notes: "",
+        usersTags: [],
+        tagRelationships: [],
+        recipeTags: [],
         isSaveModalActive: false,
         isDeleteModalActive: false,
         isRatingModalActive: false,
@@ -69,9 +74,48 @@ export default class RecipeDetails extends Component {
             .then(this.props.history.push('/recipes'))
     }
 
+    saveTag = (tagName) => {
+        const newTag = {
+            userId: parseInt(sessionStorage.getItem('activeUser')),
+            name: tagName
+        }
+
+        TagsManager.addTag(newTag)
+            .then(tag => {
+                const newTagRecipeRelationship = {
+                    recipeId: this.props.currentRecipe.id,
+                    tagId: tag.id
+                }
+                TagsRecipesManager.addTagRecipeRelationship(newTagRecipeRelationship)
+                .then(this.componentDidMount())
+            })
+    }
+
+    getAllTagRelationshipsForThisRecipe = () => {
+        return TagsRecipesManager.getAllUsersTagsRelationshipsForRecipe(this.props.currentRecipe.id)
+    }
+
+    getAllTags = () => {
+        const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
+        return TagsManager.getAllUsersTags(activeUserId)
+    }
+
     componentDidMount() {
         this.props.getAllRecipes()
             .then(this.findRecipeToViewAndEdit)
+            .then(this.getAllTags)
+            .then(userTags => {
+                this.getAllTagRelationshipsForThisRecipe()
+                .then(tagRelationships => {
+                    this.setState({
+                        usersTags: userTags,
+                        tagRelationships: tagRelationships,
+                        recipeTags: userTags.filter(userTag => {
+                            return tagRelationships.find(tagRelationship => tagRelationship.tagId === userTag.id)
+                        })
+                    })
+                })
+            })
     }
 
     render() {
@@ -127,7 +171,9 @@ export default class RecipeDetails extends Component {
                             this.state.isTagsModalActive &&
                             <AddTagsModal
                                 active={this.state.isTagsModalActive}
+                                recipeTags={this.state.recipeTags}
                                 recipe={this.props.currentRecipe}
+                                saveTag={this.saveTag}
                                 toggleAddTagsModal={this.toggleAddTagsModal}
                             />
                         }
