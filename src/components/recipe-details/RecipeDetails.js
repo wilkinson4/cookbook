@@ -8,6 +8,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import SaveRecipeNotesModal from '../modal/ConfirmSaveModal';
 import ConfirmDeleteModal from '../modal/ConfirmDeleteModal'
 import EditNotesModal from '../modal/EditNotesModal';
+import AddTagsModal from '../modal/AddTagsModal';
 import RecipeManager from '../../modules/RecipeManager';
 import './RecipeDetails.css';
 import AddRatingModalInDetails from '../modal/AddRatingModalInDetails';
@@ -18,7 +19,8 @@ export default class RecipeDetails extends Component {
         isSaveModalActive: false,
         isDeleteModalActive: false,
         isRatingModalActive: false,
-        isEditNotesModalActive: false
+        isEditNotesModalActive: false,
+        isTagsModalActive: false,
     }
 
     handleChange = (event) => {
@@ -41,7 +43,11 @@ export default class RecipeDetails extends Component {
         this.setState({ isEditNotesModalActive: !this.state.isEditNotesModalActive })
     }
 
-    saveRecipeNotes = () => {
+    toggleAddTagsModal = () => {
+        this.setState({ isTagsModalActive: !this.state.isTagsModalActive })
+    }
+
+    saveRecipeTags = () => {
         const updatedRecipe = {
             title: this.props.currentRecipe.title,
             link: this.props.currentRecipe.link,
@@ -108,12 +114,21 @@ export default class RecipeDetails extends Component {
 
                         {
                             this.state.isEditNotesModalActive &&
-                            <EditNotesModal 
+                            <EditNotesModal
                                 setCurrentRecipe={this.props.setCurrentRecipe}
                                 toggleEditNotesModal={this.toggleEditNotesModal}
                                 active={this.state.isEditNotesModalActive}
                                 currentRecipe={this.props.currentRecipe}
                                 recipeNotes={this.props.currentRecipe.notes}
+                            />
+                        }
+
+                        {
+                            this.state.isTagsModalActive &&
+                            <AddTagsModal
+                                active={this.state.isTagsModalActive}
+                                recipe={this.props.currentRecipe}
+                                toggleAddTagsModal={this.toggleAddTagsModal}
                             />
                         }
 
@@ -138,15 +153,15 @@ export default class RecipeDetails extends Component {
                                         <p>Rating</p>
                                         {
                                             this.props.currentRecipe.rating > -1
-                                            ? <div className='userStarRating__div' onClick={this.toggleRatingModal}>
-                                                <StarRatingComponent
-                                                    name="rate2"
-                                                    editing={false}
-                                                    starCount={5}
-                                                    value={this.props.currentRecipe.rating}
-                                                />
-                                            </div>
-                                            : <Button onClick={this.toggleRatingModal}>Add Rating</Button>
+                                                ? <div className='userStarRating__div' onClick={this.toggleRatingModal}>
+                                                    <StarRatingComponent
+                                                        name="rate2"
+                                                        editing={false}
+                                                        starCount={5}
+                                                        value={this.props.currentRecipe.rating}
+                                                    />
+                                                </div>
+                                                : <Button onClick={this.toggleRatingModal}>Add Rating</Button>
                                         }
                                     </Column>
                                     <Column className='has-text-right'>
@@ -162,7 +177,7 @@ export default class RecipeDetails extends Component {
                                         <p>Tags:</p>
                                     </Column>
                                     <Column className='has-text-right'>
-                                        <Icon>
+                                        <Icon onClick={this.toggleAddTagsModal}>
                                             <FontAwesomeIcon icon={faPlus} size='xs' />
                                         </Icon>
                                     </Column>
@@ -177,9 +192,11 @@ export default class RecipeDetails extends Component {
                                         <p>Notes:</p>
                                     </Column>
                                     <Column className='has-text-right'>
-                                        <Icon onClick={this.toggleEditNotesModal}>
-                                            <FontAwesomeIcon icon={faEdit} size='xs' />
-                                        </Icon>
+                                        {this.props.currentRecipe.notes !== ""
+                                            && <Icon onClick={this.toggleEditNotesModal}>
+                                                <FontAwesomeIcon icon={faEdit} size='xs' />
+                                            </Icon>
+                                        }
                                     </Column>
                                 </Column.Group>
                                 {this.props.currentRecipe.notes !== ""

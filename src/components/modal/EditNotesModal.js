@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RecipeManager from '../../modules/RecipeManager';
-import { Modal, Delete, Content, Textarea, Button, Input, Field, Message } from 'rbx';
+import { Modal, Delete, Content, Textarea, Button, Field, Message } from 'rbx';
 
 export default class EditNotesModal extends Component {
     state = {
