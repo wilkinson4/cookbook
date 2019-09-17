@@ -11,6 +11,7 @@ export default class AddTagsModal extends Component {
 
     handleSaveTag = (event) => {
         if (event.key === 'Enter') {
+            event.target.value=""
             this.props.saveTag(this.state.tagName)
         }
     }
@@ -50,6 +51,8 @@ export default class AddTagsModal extends Component {
                                     this.props.recipeTags.map(recipeTag =>
                                         <Tag
                                             key={recipeTag.id}
+                                            deleteTag={this.props.deleteTag}
+                                            tagRelationships={this.props.tagRelationships}
                                             recipeTag={recipeTag}
                                         />
                                     )

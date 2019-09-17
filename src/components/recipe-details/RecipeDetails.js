@@ -10,6 +10,7 @@ import ConfirmDeleteModal from '../modal/ConfirmDeleteModal'
 import EditNotesModal from '../modal/EditNotesModal';
 import AddTagsModal from '../modal/AddTagsModal';
 import RecipeManager from '../../modules/RecipeManager';
+import Tag from '../tags/Tag';
 import TagsManager from '../../modules/TagsManager';
 import TagsRecipesManager from '../../modules/TagsRecipesManager';
 import './RecipeDetails.css';
@@ -18,8 +19,10 @@ import AddRatingModalInDetails from '../modal/AddRatingModalInDetails';
 export default class RecipeDetails extends Component {
     state = {
         notes: "",
+        allTags: [],
         usersTags: [],
         tagRelationships: [],
+        allTagRelationships: [],
         recipeTags: [],
         isSaveModalActive: false,
         isDeleteModalActive: false,
@@ -77,7 +80,7 @@ export default class RecipeDetails extends Component {
     saveTag = (tagName) => {
         const newTag = {
             userId: parseInt(sessionStorage.getItem('activeUser')),
-            name: tagName
+            name: tagName.toLowerCase()
         }
 
         TagsManager.addTag(newTag)
@@ -87,35 +90,47 @@ export default class RecipeDetails extends Component {
                     tagId: tag.id
                 }
                 TagsRecipesManager.addTagRecipeRelationship(newTagRecipeRelationship)
-                .then(this.componentDidMount())
+                    .then(this.componentDidMount())
             })
     }
 
-    getAllTagRelationshipsForThisRecipe = () => {
-        return TagsRecipesManager.getAllUsersTagsRelationshipsForRecipe(this.props.currentRecipe.id)
+    deleteTag = (tagRelationshipId) => {
+        TagsRecipesManager.deleteTagRelationship(tagRelationshipId)
+        .then(this.init)
+    }
+
+    getAllTagRelationships = () => {
+        return TagsRecipesManager.getAll()
     }
 
     getAllTags = () => {
-        const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
-        return TagsManager.getAllUsersTags(activeUserId)
+        return TagsManager.getAllTags()
+    }
+
+    init = () => {
+        this.props.getAllRecipes()
+            .then(this.getAllTags)
+            .then(allTags => {
+                this.getAllTagRelationships()
+                    .then(allTagRelationships => {
+                        const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
+                        const userTags = allTags.filter(tag => tag.userId === activeUserId)
+                        const tagRelationships = allTagRelationships.filter(tagRelationship => tagRelationship.recipeId === this.props.currentRecipe.id)
+                        this.setState({
+                            usersTags: userTags,
+                            allTags: allTags,
+                            tagRelationships: tagRelationships,
+                            allTagRelationships: allTagRelationships,
+                            recipeTags: userTags.filter(userTag => {
+                                return tagRelationships.find(tagRelationship => tagRelationship.tagId === userTag.id)
+                            })
+                        })
+                    })
+            })
     }
 
     componentDidMount() {
-        this.props.getAllRecipes()
-            .then(this.findRecipeToViewAndEdit)
-            .then(this.getAllTags)
-            .then(userTags => {
-                this.getAllTagRelationshipsForThisRecipe()
-                .then(tagRelationships => {
-                    this.setState({
-                        usersTags: userTags,
-                        tagRelationships: tagRelationships,
-                        recipeTags: userTags.filter(userTag => {
-                            return tagRelationships.find(tagRelationship => tagRelationship.tagId === userTag.id)
-                        })
-                    })
-                })
-            })
+        this.init()
     }
 
     render() {
@@ -125,6 +140,9 @@ export default class RecipeDetails extends Component {
                 {
                     (this.props.currentRecipe.title !== "" && this.props.currentRecipe.imageURL !== "")
                     && <main className='has-text-centered section'>
+                        {/* =========== */}
+                        {/* MODALS START */}
+                        {/* =========== */}
                         {
                             this.state.isSaveModalActive &&
                             <SaveRecipeNotesModal
@@ -171,13 +189,17 @@ export default class RecipeDetails extends Component {
                             this.state.isTagsModalActive &&
                             <AddTagsModal
                                 active={this.state.isTagsModalActive}
+                                deleteTag={this.deleteTag}
+                                tagRelationships={this.state.tagRelationships}
                                 recipeTags={this.state.recipeTags}
                                 recipe={this.props.currentRecipe}
                                 saveTag={this.saveTag}
                                 toggleAddTagsModal={this.toggleAddTagsModal}
                             />
                         }
-
+                        {/* =========== */}
+                        {/* MODALS END */}
+                        {/* =========== */}
                         <Card>
                             <Card.Header>
                                 <h3>{this.props.currentRecipe.title}</h3>
@@ -230,7 +252,17 @@ export default class RecipeDetails extends Component {
                                 </Column.Group>
                                 <Column.Group className='has-text-left'>
                                     <Column>
-                                        <p>...</p>
+                                        {
+                                            this.state.recipeTags.length > 0
+                                            && this.state.recipeTags.map(recipeTag => {
+                                                return <Tag
+                                                    key={recipeTag.id}
+                                                    recipeTag={recipeTag}
+                                                    tagRelationships={this.state.tagRelationships}
+                                                    deleteTag={this.deleteTag}
+                                                />
+                                            })
+                                        }
                                     </Column>
                                 </Column.Group>
                                 <Column.Group breakpoint='mobile' className='has-text-left'>

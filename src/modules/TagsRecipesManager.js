@@ -11,8 +11,14 @@ const TagsRecipesData = {
         })
             .then(result => result.json())
     },
-    getAllUsersTagsRelationshipsForRecipe(recipeId) {
-        return fetch(`${remoteURL}/tagsRecipes?recipeId=${recipeId}`)
+    getAll() {
+        return fetch(`${remoteURL}/tagsRecipes`)
+            .then(result => result.json())
+    },
+    deleteTagRelationship(tagRelationhipId) {
+        return fetch(`${remoteURL}/tagsRecipes/${tagRelationhipId}`, {
+            method: "DELETE"
+        })
             .then(result => result.json())
     }
 }
