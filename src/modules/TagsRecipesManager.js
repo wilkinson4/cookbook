@@ -12,7 +12,7 @@ const TagsRecipesData = {
             .then(result => result.json())
     },
     getAll() {
-        return fetch(`${remoteURL}/tagsRecipes`)
+        return fetch(`${remoteURL}/tagsRecipes?_expand=recipe`)
             .then(result => result.json())
     },
     deleteTagRelationship(tagRelationhipId) {

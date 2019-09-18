@@ -14,7 +14,11 @@ const TagData = {
     getAllTags() {
         return fetch(`${remoteURL}/tags`)
             .then(result => result.json())
-    }
+    },
+    getAllUsersTags(userId) {
+        return fetch(`${remoteURL}/tags?userId=${userId}`)
+            .then(result => result.json())
+    },
 }
 
 export default TagData
