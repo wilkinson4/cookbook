@@ -8,17 +8,27 @@ import StarRatingComponent from 'react-star-rating-component';
 import SaveRecipeNotesModal from '../modal/ConfirmSaveModal';
 import ConfirmDeleteModal from '../modal/ConfirmDeleteModal'
 import EditNotesModal from '../modal/EditNotesModal';
+import AddTagsModal from '../modal/AddTagsModal';
 import RecipeManager from '../../modules/RecipeManager';
+import Tag from '../tags/Tag';
+import TagsManager from '../../modules/TagsManager';
+import TagsRecipesManager from '../../modules/TagsRecipesManager';
 import './RecipeDetails.css';
 import AddRatingModalInDetails from '../modal/AddRatingModalInDetails';
 
 export default class RecipeDetails extends Component {
     state = {
         notes: "",
+        allTags: [],
+        usersTags: [],
+        tagRelationships: [],
+        allTagRelationships: [],
+        recipeTags: [],
         isSaveModalActive: false,
         isDeleteModalActive: false,
         isRatingModalActive: false,
-        isEditNotesModalActive: false
+        isEditNotesModalActive: false,
+        isTagsModalActive: false,
     }
 
     handleChange = (event) => {
@@ -41,7 +51,11 @@ export default class RecipeDetails extends Component {
         this.setState({ isEditNotesModalActive: !this.state.isEditNotesModalActive })
     }
 
-    saveRecipeNotes = () => {
+    toggleAddTagsModal = () => {
+        this.setState({ isTagsModalActive: !this.state.isTagsModalActive })
+    }
+
+    saveRecipeTags = () => {
         const updatedRecipe = {
             title: this.props.currentRecipe.title,
             link: this.props.currentRecipe.link,
@@ -63,9 +77,60 @@ export default class RecipeDetails extends Component {
             .then(this.props.history.push('/recipes'))
     }
 
-    componentDidMount() {
+    saveTag = (tagName) => {
+        const newTag = {
+            userId: parseInt(sessionStorage.getItem('activeUser')),
+            name: tagName.toLowerCase()
+        }
+
+        TagsManager.addTag(newTag)
+            .then(tag => {
+                const newTagRecipeRelationship = {
+                    recipeId: this.props.currentRecipe.id,
+                    tagId: tag.id
+                }
+                TagsRecipesManager.addTagRecipeRelationship(newTagRecipeRelationship)
+                    .then(this.componentDidMount())
+            })
+    }
+
+    deleteTag = (tagRelationshipId) => {
+        TagsRecipesManager.deleteTagRelationship(tagRelationshipId)
+        .then(this.init)
+    }
+
+    getAllTagRelationships = () => {
+        return TagsRecipesManager.getAll()
+    }
+
+    getAllTags = () => {
+        return TagsManager.getAllTags()
+    }
+
+    init = () => {
         this.props.getAllRecipes()
-            .then(this.findRecipeToViewAndEdit)
+            .then(this.getAllTags)
+            .then(allTags => {
+                this.getAllTagRelationships()
+                    .then(allTagRelationships => {
+                        const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
+                        const userTags = allTags.filter(tag => tag.userId === activeUserId)
+                        const tagRelationships = allTagRelationships.filter(tagRelationship => tagRelationship.recipeId === this.props.currentRecipe.id)
+                        this.setState({
+                            usersTags: userTags,
+                            allTags: allTags,
+                            tagRelationships: tagRelationships,
+                            allTagRelationships: allTagRelationships,
+                            recipeTags: userTags.filter(userTag => {
+                                return tagRelationships.find(tagRelationship => tagRelationship.tagId === userTag.id)
+                            })
+                        })
+                    })
+            })
+    }
+
+    componentDidMount() {
+        this.init()
     }
 
     render() {
@@ -75,6 +140,9 @@ export default class RecipeDetails extends Component {
                 {
                     (this.props.currentRecipe.title !== "" && this.props.currentRecipe.imageURL !== "")
                     && <main className='has-text-centered section'>
+                        {/* =========== */}
+                        {/* MODALS START */}
+                        {/* =========== */}
                         {
                             this.state.isSaveModalActive &&
                             <SaveRecipeNotesModal
@@ -108,7 +176,7 @@ export default class RecipeDetails extends Component {
 
                         {
                             this.state.isEditNotesModalActive &&
-                            <EditNotesModal 
+                            <EditNotesModal
                                 setCurrentRecipe={this.props.setCurrentRecipe}
                                 toggleEditNotesModal={this.toggleEditNotesModal}
                                 active={this.state.isEditNotesModalActive}
@@ -117,6 +185,21 @@ export default class RecipeDetails extends Component {
                             />
                         }
 
+                        {
+                            this.state.isTagsModalActive &&
+                            <AddTagsModal
+                                active={this.state.isTagsModalActive}
+                                deleteTag={this.deleteTag}
+                                tagRelationships={this.state.tagRelationships}
+                                recipeTags={this.state.recipeTags}
+                                recipe={this.props.currentRecipe}
+                                saveTag={this.saveTag}
+                                toggleAddTagsModal={this.toggleAddTagsModal}
+                            />
+                        }
+                        {/* =========== */}
+                        {/* MODALS END */}
+                        {/* =========== */}
                         <Card>
                             <Card.Header>
                                 <h3>{this.props.currentRecipe.title}</h3>
@@ -138,15 +221,15 @@ export default class RecipeDetails extends Component {
                                         <p>Rating</p>
                                         {
                                             this.props.currentRecipe.rating > -1
-                                            ? <div className='userStarRating__div' onClick={this.toggleRatingModal}>
-                                                <StarRatingComponent
-                                                    name="rate2"
-                                                    editing={false}
-                                                    starCount={5}
-                                                    value={this.props.currentRecipe.rating}
-                                                />
-                                            </div>
-                                            : <Button onClick={this.toggleRatingModal}>Add Rating</Button>
+                                                ? <div className='userStarRating__div' onClick={this.toggleRatingModal}>
+                                                    <StarRatingComponent
+                                                        name="rate2"
+                                                        editing={false}
+                                                        starCount={5}
+                                                        value={this.props.currentRecipe.rating}
+                                                    />
+                                                </div>
+                                                : <Button onClick={this.toggleRatingModal}>Add Rating</Button>
                                         }
                                     </Column>
                                     <Column className='has-text-right'>
@@ -162,14 +245,24 @@ export default class RecipeDetails extends Component {
                                         <p>Tags:</p>
                                     </Column>
                                     <Column className='has-text-right'>
-                                        <Icon>
+                                        <Icon onClick={this.toggleAddTagsModal}>
                                             <FontAwesomeIcon icon={faPlus} size='xs' />
                                         </Icon>
                                     </Column>
                                 </Column.Group>
                                 <Column.Group className='has-text-left'>
                                     <Column>
-                                        <p>...</p>
+                                        {
+                                            this.state.recipeTags.length > 0
+                                            && this.state.recipeTags.map(recipeTag => {
+                                                return <Tag
+                                                    key={recipeTag.id}
+                                                    recipeTag={recipeTag}
+                                                    tagRelationships={this.state.tagRelationships}
+                                                    deleteTag={this.deleteTag}
+                                                />
+                                            })
+                                        }
                                     </Column>
                                 </Column.Group>
                                 <Column.Group breakpoint='mobile' className='has-text-left'>
@@ -177,9 +270,11 @@ export default class RecipeDetails extends Component {
                                         <p>Notes:</p>
                                     </Column>
                                     <Column className='has-text-right'>
-                                        <Icon onClick={this.toggleEditNotesModal}>
-                                            <FontAwesomeIcon icon={faEdit} size='xs' />
-                                        </Icon>
+                                        {this.props.currentRecipe.notes !== ""
+                                            && <Icon onClick={this.toggleEditNotesModal}>
+                                                <FontAwesomeIcon icon={faEdit} size='xs' />
+                                            </Icon>
+                                        }
                                     </Column>
                                 </Column.Group>
                                 {this.props.currentRecipe.notes !== ""

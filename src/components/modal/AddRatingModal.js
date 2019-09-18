@@ -14,7 +14,6 @@ export default class AddRatingModal extends Component {
     }
 
     saveRating = () => {
-        console.log(this.state.rating)
         const updatedRecipeWithRating = {
             title: this.props.recipe.title,
             link: this.props.recipe.link,

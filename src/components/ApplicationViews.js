@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from "react-router-dom";
-import LoginForm from "./auth/Login"
-import RegisterForm from "./auth/Register"
-import SearchNewRecipes from "./google-recipes/SearchNewRecipes"
+import LoginForm from "./auth/Login";
+import RegisterForm from "./auth/Register";
+import SearchNewRecipes from "./google-recipes/SearchNewRecipes";
 import UserRecipeList from './user-recipes/UserRecipeList';
 import RecipeDetails from './recipe-details/RecipeDetails';
 import RecipeManager from "../modules/RecipeManager";
 import UserManager from '../modules/UserManager';
+import TagsManager from '../modules/TagsManager';
+import TagsRecipesManager from '../modules/TagsRecipesManager';
 
 export default class ApplicationViews extends Component {
     state = {
         usersRecipes: [],
         users: [],
+        usersTags: [],
+        tagRelationships: [],
         currentRecipe: {}
     }
 
@@ -32,6 +36,18 @@ export default class ApplicationViews extends Component {
             .then(users => this.setState({ users: users }))
     }
 
+    getUsersTags = () => {
+        const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
+        TagsManager.getAllUsersTags(activeUserId)
+        .then(usersTags => {
+            this.setState({usersTags: usersTags})
+        })
+    }
+    getTagRelationships = () => {
+        return TagsRecipesManager.getAll()
+                .then(tagRelationships => this.setState({tagRelationships: tagRelationships}))
+    }
+
     deleteRecipe = (recipeId) => {
         return RecipeManager.deleteRecipe(recipeId)
             .then(this.getAllRecipes)
@@ -46,7 +62,7 @@ export default class ApplicationViews extends Component {
                 <Route
                     exact path="/" render={props => {
                         return this.isAuthenticated()
-                            ? <SearchNewRecipes {...props} />
+                            ? <SearchNewRecipes {...props} getAllRecipes={this.getAllRecipes} />
                             : <Redirect to='login' />
                     }}
                 />
@@ -63,6 +79,10 @@ export default class ApplicationViews extends Component {
                                 setCurrentRecipe={this.setCurrentRecipe}
                                 currentRecipe={this.state.currentRecipe}
                                 usersRecipes={this.state.usersRecipes}
+                                getUsersTags={this.getUsersTags}
+                                usersTags={this.state.usersTags}
+                                getTagRelationships={this.getTagRelationships}
+                                tagRelationships={this.state.tagRelationships}
                                 getAllUsers={this.getAllUsers}
                                 {...props}
                             />
@@ -75,6 +95,7 @@ export default class ApplicationViews extends Component {
                             ? <RecipeDetails
                                 setCurrentRecipe={this.setCurrentRecipe}
                                 usersRecipes={this.state.usersRecipes}
+                                usersTags={this.state.usersTags}
                                 getAllRecipes={this.getAllRecipes}
                                 currentRecipe={this.state.currentRecipe}
                                 deleteRecipe={this.deleteRecipe}

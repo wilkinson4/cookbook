@@ -40,10 +40,12 @@ export default class RecipeModal extends Component {
                 description: this.state.description,
                 imageURL: this.state.imageURL,
                 cookTime: "",
+                tags: [],
                 rating: -1,
                 notes: ""
             }
             RecipeManager.saveRecipe(newRecipeObj)
+                .then(this.props.getAllRecipes)
                 .then(this.props.history.push('/recipes'))
         }
     }

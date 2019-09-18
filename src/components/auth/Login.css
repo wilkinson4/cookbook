@@ -1,0 +1,25 @@
+.loginRegister__container {
+    height: 100%;
+    position: relative;
+}
+
+.message__container {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    width: 90%;
+}
+
+.login__form {
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    width: 80%
+}
+
+.register__form {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 80%
+}
