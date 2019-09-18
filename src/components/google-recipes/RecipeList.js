@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import RecipeCard from './RecipeCard';
 
 export default class RecipeList extends Component {
+
+    componentDidMount() {
+        this.props.setLoadingStatusToFalse()
+    }
+    
     render() {
         return (
             <>

@@ -14,3 +14,7 @@
 .columns {
     align-items: center;
 }
+
+#googleSearch__field {
+    justify-content: center;
+}

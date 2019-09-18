@@ -4,6 +4,10 @@ const GoogleRecipeManager = {
     getRecipesFromGoogle(recipeToSearch) {
         return fetch(`${url}?key=${process.env.REACT_APP_API_KEY}&q=${recipeToSearch}+recipes`)
             .then(result => result.json())
+    },
+    getNextTenResultsFromGoogle(recipeToSearch, startingIndex) {
+        return fetch(`${url}?key=${process.env.REACT_APP_API_KEY}&q=${recipeToSearch}+recipes&start=${startingIndex}`)
+        .then(result => result.json()) 
     }
 }
 
