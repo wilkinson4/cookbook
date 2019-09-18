@@ -22,12 +22,12 @@ export default class RecipeModal extends Component {
                 displayError: "block",
                 errorMessage: "Please fill out all fields."
             })
-        } else if(!urlValidation.test(this.state.link)){
+        } else if (!urlValidation.test(this.state.link)) {
             this.setState({
                 displayError: "block",
                 errorMessage: "Please enter a valid link address."
             })
-        } else if(this.state.imageURL.length > 0 && !urlValidation.test(this.state.imageURL)) {
+        } else if (this.state.imageURL.length > 0 && !urlValidation.test(this.state.imageURL)) {
             this.setState({
                 displayError: "block",
                 errorMessage: "Please enter a valid image link address."

@@ -96,7 +96,7 @@ export default class RecipeDetails extends Component {
 
     deleteTag = (tagRelationshipId) => {
         TagsRecipesManager.deleteTagRelationship(tagRelationshipId)
-        .then(this.init)
+            .then(this.init)
     }
 
     getAllTagRelationships = () => {
@@ -138,7 +138,7 @@ export default class RecipeDetails extends Component {
             <>
                 <NavBar />
                 {
-                    (this.props.currentRecipe.title !== "" && this.props.currentRecipe.imageURL !== "")
+                    (this.props.currentRecipe.title !== "")
                     && <main className='has-text-centered section'>
                         {/* =========== */}
                         {/* MODALS START */}
@@ -202,7 +202,9 @@ export default class RecipeDetails extends Component {
                         {/* =========== */}
                         <Card>
                             <Card.Header>
-                                <h3>{this.props.currentRecipe.title}</h3>
+                                <a href={this.props.currentRecipe.link}>
+                                    <h3>{this.props.currentRecipe.title}</h3>
+                                </a>
                                 <Icon onClick={this.toggleDeleteModal}>
                                     <FontAwesomeIcon icon={faTimes} size='xs' />
                                 </Icon>

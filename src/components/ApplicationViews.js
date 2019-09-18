@@ -28,6 +28,7 @@ export default class ApplicationViews extends Component {
     }
 
     setCurrentRecipe = (currentRecipe) => {
+        console.log("setting the current recipe to: ", currentRecipe)
         this.setState({currentRecipe: currentRecipe})
     }
 

@@ -46,7 +46,6 @@ export default class UserRecipeList extends Component {
                 <NavBar />
                 <main className='has-text-centered section' >
                     <section>
-                        {/* Displays the modal if this.state.active === true */}
                         <h1 className='h1 is-size-3-mobile'>Your Recipes</h1>
                         <Control iconRight>
                             <Input id='filterRecipeText' onKeyUp={this.handleChange} type='text' placeholder='hungry for pasta?' />
@@ -62,9 +61,9 @@ export default class UserRecipeList extends Component {
                     <section className='section'>
                         {
                             (this.state.filterRecipeText === "" && !this.state.showMadeRecipes)
-                                ? this.props.usersRecipes.map(recipe =>
+                                ? this.props.usersRecipes.map((recipe, i) =>
                                     <UserRecipeCard
-                                        key={recipe.id}
+                                        key={i}
                                         currentRecipe={this.props.currentRecipe}
                                         setCurrentRecipe={this.setCurrentRecipe}
                                         usersRecipes={this.props.usersRecipes}
@@ -75,9 +74,9 @@ export default class UserRecipeList extends Component {
                                     />
                                 )
                                 : this.state.showMadeRecipes
-                                    ? this.createMadeRecipesArray().map(recipe =>
+                                    ? this.createMadeRecipesArray().map((recipe, i) =>
                                         <UserRecipeCard
-                                            key={recipe.id}
+                                            key={i}
                                             currentRecipe={this.props.currentRecipe}
                                             setCurrentRecipe={this.setCurrentRecipe}
                                             usersRecipes={this.props.usersRecipes}
@@ -87,9 +86,9 @@ export default class UserRecipeList extends Component {
                                             toggleModal={this.toggleModal}
                                         />
                                     )
-                                    : this.filterTags().map(tagRelationship =>
+                                    : this.filterTags().map((tagRelationship, i) =>
                                         <UserRecipeCard
-                                            key={tagRelationship.recipe.id}
+                                            key={i}
                                             currentRecipe={this.props.currentRecipe}
                                             setCurrentRecipe={this.setCurrentRecipe}
                                             usersRecipes={this.props.usersRecipes}

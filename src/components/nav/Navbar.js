@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar } from 'rbx';
+import './NavBar.css';
 
 export default class NavBar extends Component {
     logout() {
@@ -11,10 +12,11 @@ export default class NavBar extends Component {
                 <Navbar.Brand>
                     <Navbar.Item href="https://bulma.io">
                         <img
-                            src="https://bulma.io/images/bulma-logo.png"
+                            src='../../logo.png'
                             alt="Bulma: a modern CSS framework based on Flexbox"
                             width="112"
                             height="28"
+                            id='navLogo__img'
                         />
                     </Navbar.Item>
                     <Navbar.Burger />
