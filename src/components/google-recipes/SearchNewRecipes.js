@@ -48,7 +48,7 @@ export default class SearchNewRecipes extends Component {
                 <NavBar />
                 <main className='has-text-centered section' >
                     {/* Displays the modal if this.state.active === true */}
-                    {this.state.active && <RecipeModal toggleModal={this.toggleModal} active={this.state.active} {...this.props} />}
+                    {this.state.active && <RecipeModal toggleModal={this.toggleModal} active={this.state.active} getAllRecipes={this.props.getAllRecipes} {...this.props} />}
                     <h1 className='h1 is-size-3-mobile'>Google for Recipes</h1>
                     <Input type='text' placeholder='search for a recipe' onKeyPress={this.handleKeyPress} />
                     <p>or</p>

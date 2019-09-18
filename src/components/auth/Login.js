@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import UserManager from '../../modules/UserManager';
-import { Input, Button } from 'rbx';
+import { Input, Button, Message } from 'rbx';
 
 export default class LoginForm extends Component {
     state = {
         loginEmail: '',
         loginPassword: '',
-        loadingStatus: false
+        loadingStatus: false,
+        displayError: 'none',
+        errorMessage: '',
     }
 
     handleChange = (event) => {
@@ -23,7 +25,10 @@ export default class LoginForm extends Component {
         if (this.state.loginEmail.length === 0 || this.state.loginPassword.length === 0) {
             window.alert('Please fill out all fields')
         } else if (!emailValidation.test(userObj.email)) {
-            window.alert("Invalid email format")
+            this.setState({
+                displayError: 'block',
+                errorMessage: "Invalid email format."
+            })
         }
         else {
             UserManager.getUserFromSearch("email", userObj.email)
@@ -35,13 +40,13 @@ export default class LoginForm extends Component {
                         if (passwordMatches) {
                             sessionStorage.setItem("activeUser", existingUserObj.id)
                             this.props.history.push("/")
+                        } else {
+                            this.setState({
+                                displayError: 'block',
+                                errorMessage: "Incorrect email/password. Please try again."
+                            })
                         }
-                    } else {
-                        const userConfirmation = window.confirm("Username/password not found. Click \"OK\" to register as new user. Click \"Cancel\" to try again.")
-                        if (userConfirmation) {
-                            this.props.history.push("/register")
-                        }
-                    }
+                    } 
                 })
         }
     }
@@ -52,8 +57,19 @@ export default class LoginForm extends Component {
     }
 
     render() {
+        const displayErrorMessage = {
+            display: this.state.displayError
+        }
         return (
             <form className='login__form section has-text-centered'>
+                <Message color="danger" style={displayErrorMessage}>
+                    <Message.Header>
+                        <p>Error</p>
+                    </Message.Header>
+                    <Message.Body>
+                        <p>{this.state.errorMessage}</p>
+                    </Message.Body>
+                </Message>
                 <h1 className='loginForm__h1 is-size-3-mobile'>CookBook</h1>
                 <fieldset className='field'>
                     <Input type='email' id='loginEmail' placeholder='email' value={this.state.loginEmail} onChange={this.handleChange} />

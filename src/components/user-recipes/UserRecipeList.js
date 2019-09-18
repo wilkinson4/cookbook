@@ -7,7 +7,16 @@ import UserRecipeCard from './UserRecipeCard';
 export default class UserRecipeList extends Component {
 
     state = {
-        filterRecipeText: ""
+        filterRecipeText: "",
+        showMadeRecipes: false,
+    }
+
+    toggleMadeRecipes = () => {
+        this.setState({showMadeRecipes: !this.state.showMadeRecipes})
+    }
+
+    createMadeRecipesArray = () => {
+        return this.props.usersRecipes.filter(recipe => recipe.rating > -1)
     }
 
     filterTags = () => {
@@ -40,12 +49,12 @@ export default class UserRecipeList extends Component {
                         <Input id='filterRecipeText' onKeyUp={this.handleChange} type='text' placeholder='hungry for pasta?' />
                         <p>or</p>
                         <Label>
-                            <Checkbox />View Made Recipes
+                            <Checkbox onChange={this.toggleMadeRecipes} />View Made Recipes
                         </Label>
                     </section>
                     <section className='section'>
                         {
-                            this.state.filterRecipeText === ""
+                            (this.state.filterRecipeText === "" && !this.state.showMadeRecipes)
                                 ? this.props.usersRecipes.map(recipe =>
                                     <UserRecipeCard
                                         key={recipe.id}
@@ -58,6 +67,19 @@ export default class UserRecipeList extends Component {
                                         toggleModal={this.toggleModal}
                                     />
                                 )
+                                    : this.state.showMadeRecipes
+                                    ? this.createMadeRecipesArray().map(recipe =>
+                                        <UserRecipeCard
+                                            key={recipe.id}
+                                            currentRecipe={this.props.currentRecipe}
+                                            setCurrentRecipe={this.setCurrentRecipe}
+                                            usersRecipes={this.props.usersRecipes}
+                                            recipe={recipe}
+                                            {...this.props}
+                                            getAllRecipes={this.props.getAllRecipes}
+                                            toggleModal={this.toggleModal}
+                                        />
+                                    )
                                 : this.filterTags().map(tagRelationship =>
                                     <UserRecipeCard
                                         key={tagRelationship.recipe.id}
