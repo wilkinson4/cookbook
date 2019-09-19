@@ -11,9 +11,9 @@ export default class RecipeList extends Component {
         return (
             <>
                 <section className='section'>
-                    {this.props.recipeResults.map(recipe =>
+                    {this.props.recipeResults.map((recipe, i) =>
                         <RecipeCard
-                            key={recipe.cacheId}
+                            key={i}
                             recipe={recipe}
                             {...this.props}
                         />

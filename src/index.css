@@ -20,3 +20,8 @@ body {
 #root {
   height: 100vh;
 }
+
+.cardTitle__a {
+  color: #ba0000;
+  text-decoration: underline;
+}

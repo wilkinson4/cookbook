@@ -148,8 +148,9 @@ export default class RecipeDetails extends Component {
                             <SaveRecipeNotesModal
                                 notes={this.state.notes}
                                 toggleSaveRecipeNotesModal={this.toggleSaveModal}
+                                setCurrentRecipe={this.props.setCurrentRecipe}
+                                currentRecipe={this.props.currentRecipe}
                                 active={this.state.isSaveModalActive}
-                                saveRecipeNotes={this.saveRecipeNotes}
                                 findRecipeToViewAndEdit={this.findRecipeToViewAndEdit}
                             />
 
@@ -202,7 +203,7 @@ export default class RecipeDetails extends Component {
                         {/* =========== */}
                         <Card>
                             <Card.Header>
-                                <a href={this.props.currentRecipe.link}>
+                                <a className='cardTitle__a' href={this.props.currentRecipe.link}>
                                     <h3>{this.props.currentRecipe.title}</h3>
                                 </a>
                                 <Icon onClick={this.toggleDeleteModal}>

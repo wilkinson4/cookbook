@@ -46,19 +46,24 @@ export default class UserRecipeCard extends Component {
                 {/* Add Rating Modal */}
                 {this.state.showAddRatingModal && <AddRatingModal active={this.state.showAddRatingModal} toggleAddRatingModal={this.toggleAddRatingModal} recipe={this.props.recipe} {...this.props} />}
                 <Card>
-                    <Card.Header className='card-header has-text-left'>
-                        <a className='card-title' href={this.props.recipe.recipeLink} target='_blank' rel='noopener noreferrer'>{this.props.recipe.title}</a>
-                        <Icon onClick={this.toggleDeleteModal}>
-                            <FontAwesomeIcon icon={faTimes} size='xs' />
-                        </Icon>
+                    <Card.Header className='card-header has-text-centered'>
+                        <Card.Header.Icon as='span'>
+                            <Icon onClick={this.toggleDeleteModal}>
+                                <FontAwesomeIcon icon={faTimes} size='xs' />
+                            </Icon>
+                        </Card.Header.Icon>
                     </Card.Header>
                     <Card.Content>
+                        <Column.Group>
+                            <Column>
+                                <a className='cardTitle__a' href={this.props.recipe.link} target='_blank' rel='noopener noreferrer'>{this.props.recipe.title}</a>
+                            </Column>
+                        </Column.Group>
                         <Column.Group breakpoint='mobile'>
                             <Column className='has-text-left'>
                                 <p className='is-size-7'>{this.props.recipe.description.slice(0, 150)}...</p>
                             </Column>
                             <Column className='detailsImageColumn__div'>
-                                <Button onClick={this.viewRecipeDetails}>View Details</Button>
                                 {
                                     this.props.recipe.imageURL !== "" && <img className='recipeThumbnail__img' src={this.props.recipe.imageURL} alt='Recipe Thumbnail'></img>
                                 }
@@ -66,11 +71,10 @@ export default class UserRecipeCard extends Component {
                         </Column.Group>
                     </Card.Content>
                     <Card.Footer>
-                        <Column.Group breakpoint='mobile'>
-                            <Column>
+                            <Card.Footer.Item>
                                 {
                                     this.props.recipe.rating === -1
-                                        ? <Button onClick={this.toggleAddRatingModal}>Add Rating</Button>
+                                        ? <Button onClick={this.toggleAddRatingModal} size='small' >Add Rating</Button>
                                         : <div className='userStarRating__div' onClick={this.toggleAddRatingModal}>
                                             <p>Rating</p>
                                             <StarRatingComponent
@@ -81,21 +85,23 @@ export default class UserRecipeCard extends Component {
                                             />
                                         </div>
                                 }
-                            </Column>
-                            <Column>
+                            </Card.Footer.Item>
+                            <Card.Footer.Item>
                                 <div className='cookTimeContainer__div'>
                                     <div>
                                         <p>Cook Time</p>
                                     </div>
                                     <div>
                                         {this.props.recipe.cookTime !== ""
-                                            ? <p>{this.props.recipe.cookTime}</p>
+                                            ? <p>{this.props.recipe.cookTime.split('PT')[1]}</p>
                                             : <p>...</p>
                                         }
                                     </div>
                                 </div>
-                            </Column>
-                        </Column.Group>
+                            </Card.Footer.Item>
+                            <Card.Footer.Item>
+                                <Button onClick={this.viewRecipeDetails} size='small'>View Details</Button>
+                            </Card.Footer.Item>
                     </Card.Footer>
                 </Card>
             </>

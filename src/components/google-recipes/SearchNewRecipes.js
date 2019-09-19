@@ -16,24 +16,26 @@ export default class SearchNewRecipes extends Component {
         active: false,
         currentPage: 0,
         searchTerm: "",
-        loadingStatus: false
+        loadingStatus: ''
     }
 
-    handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            GoogleRecipeManager.getRecipesFromGoogle(event.target.value)
+    handleSearch = (event) => {
+        console.log(event.target.id)
+        if (event.key === 'Enter' || event.target.id === 'search') {
+            this.setState({ loadingStatus: 'loading' })
+            GoogleRecipeManager.getRecipesFromGoogle(this.state.searchTerm)
                 .then(recipeResultsFromGoogle => {
                     this.setState({
                         recipeResultsFromGoogle: recipeResultsFromGoogle.items,
                         currentPage: 0,
-                        loadingStatus: true
                     })
                 })
         }
     }
 
+
     setLoadingStatusToFalse = () => {
-        this.setState({ loadingStatus: false })
+        this.setState({ loadingStatus: '' })
     }
 
     handleClick = () => {
@@ -110,11 +112,11 @@ export default class SearchNewRecipes extends Component {
                         />}
                     <h1 className='h1 is-size-3-mobile'>Google for Recipes</h1>
                     <Field id='googleSearch__field' kind="addons">
-                        <Control loading={this.state.loadingStatus}>
-                            <Input id='searchTerm' type='text' placeholder='search for a recipe' onKeyPress={this.handleKeyPress} onChange={this.handleChange} />
-                        </Control>
                         <Control>
-                            <Button static>
+                            <Input id='searchTerm' type='text' placeholder='search for a recipe' onKeyPress={this.handleSearch} onChange={this.handleChange} />
+                        </Control>
+                        <Control onClick={this.handleSearch} id='search'>
+                            <Button static state={this.state.loadingStatus} >
                                 <Icon>
                                     <FontAwesomeIcon icon={faSearch} size='xs' />
                                 </Icon>

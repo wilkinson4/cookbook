@@ -7,3 +7,25 @@
 .detailsImageColumn__div button{
   margin-bottom: 15px;
 }
+
+.card-header {
+  box-shadow: none !important;
+  justify-content: flex-end !important;
+}
+
+.card-header-icon {
+  padding: 0.2rem !important;
+}
+
+.card-footer {
+  border-top: none !important;
+}
+
+.card-footer-item:not(:last-child) {
+  border-right: none !important;
+}
+
+.card-content {
+  padding-top: 0.5rem !important;
+  padding-bottom: 2rem !important;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Navbar } from 'rbx';
 import './NavBar.css';
 
@@ -23,12 +24,22 @@ export default class NavBar extends Component {
                 </Navbar.Brand>
                 <Navbar.Menu>
                     <Navbar.Segment align="start">
-                        <Navbar.Item href="/">Home</Navbar.Item>
+                        <Navbar.Item as='div'>
+                            <Link to='/'>
+                                Home
+                            </Link>
+                        </Navbar.Item>
                         <Navbar.Divider />
-                        <Navbar.Item href="/recipes">View Your Recipes</Navbar.Item>
+                        <Navbar.Item as='div'>
+                            <Link to='/recipes'>
+                                View Your Recipes
+                            </Link>
+                        </Navbar.Item>
                         <Navbar.Divider />
-                        <Navbar.Item href="/login" onClick={this.logout}>
-                            Logout
+                        <Navbar.Item as='div' onClick={this.logout}>
+                            <Link to='/login'>
+                                Logout
+                            </Link>
                         </Navbar.Item>
                     </Navbar.Segment>
                 </Navbar.Menu>

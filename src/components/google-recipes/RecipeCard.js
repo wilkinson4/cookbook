@@ -33,12 +33,11 @@ export default class RecipeCard extends Component {
     }
 
     checkCookTimeFromGoogle = (imageURL) => {
-
         if (this.props.recipe.pagemap.hasOwnProperty('recipe')) {
             this.setState({
                 title: this.props.recipe.title,
                 imageURL: imageURL,
-                description: this.props.recipe.pagemap.metatags[0]['og:description'],
+                description: this.props.recipe.pagemap.metatags[0]['og:description'] || '',
                 cookTime: this.props.recipe.pagemap.recipe[0]['totaltime'],
                 recipeLink: this.props.recipe.link,
             })
@@ -46,7 +45,7 @@ export default class RecipeCard extends Component {
             this.setState({
                 title: this.props.recipe.title,
                 imageURL: imageURL,
-                description: this.props.recipe.pagemap.metatags[0]['og:description'],
+                description: this.props.recipe.pagemap.metatags[0]['og:description'] || '',
                 cookTime: this.props.recipe.pagemap.metatags[0]['ncba:recipetime'],
                 recipeLink: this.props.recipe.link,
             })
@@ -54,7 +53,7 @@ export default class RecipeCard extends Component {
             this.setState({
                 title: this.props.recipe.title,
                 imageURL: imageURL,
-                description: this.props.recipe.pagemap.metatags[0]['og:description'],
+                description: this.props.recipe.pagemap.metatags[0]['og:description'] || '',
                 cookTime: "",
                 recipeLink: this.props.recipe.link,
             })
@@ -85,7 +84,7 @@ export default class RecipeCard extends Component {
             return (
                 <div className='recipeResult__div card'>
                     <div className='card-header'>
-                        <a className='card-title' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
+                        <a className='cardTitle__a' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
                         {activeUsersRecipes.find(recipe => recipe.title === this.state.title) !== undefined || this.state.isSaved
                             ? <Icon>
                                 <FontAwesomeIcon icon={faCheck} />
@@ -115,7 +114,7 @@ export default class RecipeCard extends Component {
             return (
                 <div className='recipeResult__div card'>
                     <div className='card-header'>
-                        <a className='card-title' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
+                        <a className='cardTitle__a' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
                         {activeUsersRecipes.find(recipe => recipe.title === this.state.title) !== undefined || this.state.isSaved
                             ? <Icon>
                                 <FontAwesomeIcon icon={faCheck} />

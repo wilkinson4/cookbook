@@ -17,6 +17,7 @@ export default class RecipeModal extends Component {
     }
     saveRecipe = () => {
         const urlValidation = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\\.-]+)+[\w\-\\._~:/?#[\]@!\\$&'\\(\\)\\*\\+,;=.]+$/gm
+        const imageURLValidation = /(https?:\/\/.*\.(?:png|jpg))/
         if (this.state.title === "" || this.state.link === "" || this.state.description === "") {
             this.setState({
                 displayError: "block",
@@ -27,7 +28,7 @@ export default class RecipeModal extends Component {
                 displayError: "block",
                 errorMessage: "Please enter a valid link address."
             })
-        } else if (this.state.imageURL.length > 0 && !urlValidation.test(this.state.imageURL)) {
+        } else if (this.state.imageURL.length > 0 && !imageURLValidation.test(this.state.imageURL)) {
             this.setState({
                 displayError: "block",
                 errorMessage: "Please enter a valid image link address."
