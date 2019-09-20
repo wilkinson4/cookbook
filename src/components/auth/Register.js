@@ -86,7 +86,7 @@ export default class RegisterForm extends Component {
                         <Input type='password' id='registerPassword' placeholder='password' value={this.state.registerPassword} onChange={this.handleChange} />
                     </fieldset>
                     <fieldset className='field'>
-                        <Button disabled={this.state.loadingStatus} id='registerSubmit__button' onClick={this.handleSubmit}>Register</Button>
+                        <Button color='danger' disabled={this.state.loadingStatus} id='registerSubmit__button' onClick={this.handleSubmit}>Register</Button>
                     </fieldset>
                     <fieldset className='field'>
                         <p className='loginRegister__p'>Already a user?</p>
