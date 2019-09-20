@@ -9,6 +9,7 @@ import SaveRecipeNotesModal from '../modal/ConfirmSaveModal';
 import ConfirmDeleteModal from '../modal/ConfirmDeleteModal'
 import EditNotesModal from '../modal/EditNotesModal';
 import AddTagsModal from '../modal/AddTagsModal';
+import AddCookTimeModal from '../modal/AddCookTime';
 import RecipeManager from '../../modules/RecipeManager';
 import Tag from '../tags/Tag';
 import TagsManager from '../../modules/TagsManager';
@@ -29,6 +30,7 @@ export default class RecipeDetails extends Component {
         isRatingModalActive: false,
         isEditNotesModalActive: false,
         isTagsModalActive: false,
+        isCookTimeModalActive: false,
     }
 
     handleChange = (event) => {
@@ -53,6 +55,10 @@ export default class RecipeDetails extends Component {
 
     toggleAddTagsModal = () => {
         this.setState({ isTagsModalActive: !this.state.isTagsModalActive })
+    }
+
+    toggleCookTimeModal = () => {
+        this.setState({ isCookTimeModalActive: !this.state.isCookTimeModalActive })
     }
 
     saveRecipeTags = () => {
@@ -198,6 +204,16 @@ export default class RecipeDetails extends Component {
                                 toggleAddTagsModal={this.toggleAddTagsModal}
                             />
                         }
+
+                        {
+                            this.state.isCookTimeModalActive &&
+                            <AddCookTimeModal
+                                setCurrentRecipe={this.props.setCurrentRecipe}
+                                toggleCookTimeModal={this.toggleCookTimeModal}
+                                active={this.state.isCookTimeModalActive}
+                                currentRecipe={this.props.currentRecipe}
+                            />
+                        }
                         {/* =========== */}
                         {/* MODALS END */}
                         {/* =========== */}
@@ -241,7 +257,7 @@ export default class RecipeDetails extends Component {
                                         <p>Cook Time</p>
                                         {this.props.currentRecipe.cookTime !== ""
                                             ? <p>{this.props.currentRecipe.cookTime}</p>
-                                            : <p>...</p>
+                                            : <Button onClick={this.toggleCookTimeModal} size='small'>Add Cook Time</Button>
                                         }
                                     </Column>
                                 </Column.Group>
