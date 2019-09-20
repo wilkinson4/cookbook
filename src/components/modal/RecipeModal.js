@@ -17,17 +17,18 @@ export default class RecipeModal extends Component {
     }
     saveRecipe = () => {
         const urlValidation = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\\.-]+)+[\w\-\\._~:/?#[\]@!\\$&'\\(\\)\\*\\+,;=.]+$/gm
+        const imageURLValidation = /(https?:\/\/.*\.(?:png|jpg))/
         if (this.state.title === "" || this.state.link === "" || this.state.description === "") {
             this.setState({
                 displayError: "block",
                 errorMessage: "Please fill out all fields."
             })
-        } else if(!urlValidation.test(this.state.link)){
+        } else if (!urlValidation.test(this.state.link)) {
             this.setState({
                 displayError: "block",
                 errorMessage: "Please enter a valid link address."
             })
-        } else if(this.state.imageURL.length > 0 && !urlValidation.test(this.state.imageURL)) {
+        } else if (this.state.imageURL.length > 0 && !imageURLValidation.test(this.state.imageURL)) {
             this.setState({
                 displayError: "block",
                 errorMessage: "Please enter a valid image link address."
@@ -87,7 +88,7 @@ export default class RecipeModal extends Component {
                         </Content>
                     </Modal.Card.Body>
                     <Modal.Card.Foot>
-                        <Button color="success" onClick={this.saveRecipe}>Save Recipe</Button>
+                        <Button color="danger" onClick={this.saveRecipe}>Save Recipe</Button>
                         <Button onClick={this.props.toggleModal}>Cancel</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import NavBar from '../nav/Navbar';
-import { Input, Checkbox, Label } from 'rbx';
+import { Input, Checkbox, Label, Control, Icon } from 'rbx';
 import UserRecipeCard from './UserRecipeCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 
 export default class UserRecipeList extends Component {
@@ -12,7 +14,7 @@ export default class UserRecipeList extends Component {
     }
 
     toggleMadeRecipes = () => {
-        this.setState({showMadeRecipes: !this.state.showMadeRecipes})
+        this.setState({ showMadeRecipes: !this.state.showMadeRecipes })
     }
 
     createMadeRecipesArray = () => {
@@ -44,20 +46,25 @@ export default class UserRecipeList extends Component {
                 <NavBar />
                 <main className='has-text-centered section' >
                     <section>
-                        {/* Displays the modal if this.state.active === true */}
                         <h1 className='h1 is-size-3-mobile'>Your Recipes</h1>
-                        <Input id='filterRecipeText' onKeyUp={this.handleChange} type='text' placeholder='hungry for pasta?' />
+                        <Control iconRight>
+                            <Input id='filterRecipeText' onKeyUp={this.handleChange} type='text' placeholder='hungry for pasta?' />
+                            <Icon size="small" align="right">
+                                <FontAwesomeIcon icon={faSearch} />
+                            </Icon>
+                        </Control>
                         <p>or</p>
                         <Label>
-                            <Checkbox onChange={this.toggleMadeRecipes} />View Made Recipes
+                            <Checkbox onChange={this.toggleMadeRecipes} />
+                            <span className='viewMadeRecipes__span'>View Made Recipes</span>
                         </Label>
                     </section>
                     <section className='section'>
                         {
                             (this.state.filterRecipeText === "" && !this.state.showMadeRecipes)
-                                ? this.props.usersRecipes.map(recipe =>
+                                ? this.props.usersRecipes.map((recipe, i) =>
                                     <UserRecipeCard
-                                        key={recipe.id}
+                                        key={i}
                                         currentRecipe={this.props.currentRecipe}
                                         setCurrentRecipe={this.setCurrentRecipe}
                                         usersRecipes={this.props.usersRecipes}
@@ -67,10 +74,10 @@ export default class UserRecipeList extends Component {
                                         toggleModal={this.toggleModal}
                                     />
                                 )
-                                    : this.state.showMadeRecipes
-                                    ? this.createMadeRecipesArray().map(recipe =>
+                                : this.state.showMadeRecipes
+                                    ? this.createMadeRecipesArray().map((recipe, i) =>
                                         <UserRecipeCard
-                                            key={recipe.id}
+                                            key={i}
                                             currentRecipe={this.props.currentRecipe}
                                             setCurrentRecipe={this.setCurrentRecipe}
                                             usersRecipes={this.props.usersRecipes}
@@ -80,18 +87,18 @@ export default class UserRecipeList extends Component {
                                             toggleModal={this.toggleModal}
                                         />
                                     )
-                                : this.filterTags().map(tagRelationship =>
-                                    <UserRecipeCard
-                                        key={tagRelationship.recipe.id}
-                                        currentRecipe={this.props.currentRecipe}
-                                        setCurrentRecipe={this.setCurrentRecipe}
-                                        usersRecipes={this.props.usersRecipes}
-                                        recipe={tagRelationship.recipe}
-                                        {...this.props}
-                                        getAllRecipes={this.props.getAllRecipes}
-                                        toggleModal={this.toggleModal}
-                                    />
-                                )
+                                    : this.filterTags().map((tagRelationship, i) =>
+                                        <UserRecipeCard
+                                            key={i}
+                                            currentRecipe={this.props.currentRecipe}
+                                            setCurrentRecipe={this.setCurrentRecipe}
+                                            usersRecipes={this.props.usersRecipes}
+                                            recipe={tagRelationship.recipe}
+                                            {...this.props}
+                                            getAllRecipes={this.props.getAllRecipes}
+                                            toggleModal={this.toggleModal}
+                                        />
+                                    )
                         }
                     </section>
                 </main>

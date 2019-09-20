@@ -1,0 +1,13 @@
+.navbar-item img {
+  max-height: 4rem !important;
+  height: 4rem !important;
+  width: auto;
+}
+
+.navbar-item a {
+  color: #4a4a4a;
+}
+
+.navbar-burger {
+  margin-top: 3%;
+}

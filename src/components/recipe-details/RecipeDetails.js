@@ -96,7 +96,7 @@ export default class RecipeDetails extends Component {
 
     deleteTag = (tagRelationshipId) => {
         TagsRecipesManager.deleteTagRelationship(tagRelationshipId)
-        .then(this.init)
+            .then(this.init)
     }
 
     getAllTagRelationships = () => {
@@ -138,7 +138,7 @@ export default class RecipeDetails extends Component {
             <>
                 <NavBar />
                 {
-                    (this.props.currentRecipe.title !== "" && this.props.currentRecipe.imageURL !== "")
+                    (this.props.currentRecipe.title !== "")
                     && <main className='has-text-centered section'>
                         {/* =========== */}
                         {/* MODALS START */}
@@ -148,8 +148,9 @@ export default class RecipeDetails extends Component {
                             <SaveRecipeNotesModal
                                 notes={this.state.notes}
                                 toggleSaveRecipeNotesModal={this.toggleSaveModal}
+                                setCurrentRecipe={this.props.setCurrentRecipe}
+                                currentRecipe={this.props.currentRecipe}
                                 active={this.state.isSaveModalActive}
-                                saveRecipeNotes={this.saveRecipeNotes}
                                 findRecipeToViewAndEdit={this.findRecipeToViewAndEdit}
                             />
 
@@ -202,7 +203,11 @@ export default class RecipeDetails extends Component {
                         {/* =========== */}
                         <Card>
                             <Card.Header>
-                                <h3>{this.props.currentRecipe.title}</h3>
+                                <Card.Header.Title as='div'>
+                                    <a className='cardTitle__a' href={this.props.currentRecipe.link}>
+                                        <h3>{this.props.currentRecipe.title}</h3>
+                                    </a>
+                                </Card.Header.Title>
                                 <Icon onClick={this.toggleDeleteModal}>
                                     <FontAwesomeIcon icon={faTimes} size='xs' />
                                 </Icon>
@@ -251,7 +256,7 @@ export default class RecipeDetails extends Component {
                                     </Column>
                                 </Column.Group>
                                 <Column.Group className='has-text-left'>
-                                    <Column>
+                                    <Column className='tagColumn__div is-flex'>
                                         {
                                             this.state.recipeTags.length > 0
                                             && this.state.recipeTags.map(recipeTag => {
@@ -285,9 +290,11 @@ export default class RecipeDetails extends Component {
                                     </Tile>
                                     : <Textarea id='notes' onChange={this.handleChange} rows={10} placeholder='Add some notes for next time...' />
                                 }
-                                <Column>
-                                    <Button onClick={this.toggleSaveModal}>Save</Button>
-                                </Column>
+                                {this.props.currentRecipe.notes === ""
+                                    && <Column>
+                                        <Button onClick={this.toggleSaveModal}>Save</Button>
+                                    </Column>
+                                }
                             </Card.Content>
                         </Card>
                     </main>

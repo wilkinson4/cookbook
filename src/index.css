@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  padding:  0;
-  font-family: 'Raleway', sans-serif !important;
+  padding: 0;
+  font-family: "Roboto", sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -12,11 +12,22 @@ body {
     monospace;
 } */
 
-
 .section {
   padding: 3rem 0.5rem !important;
 }
 
 #root {
   height: 100vh;
+}
+
+.cardTitle__a {
+  color: #ba0000;
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Raleway", sans-serif !important;
 }

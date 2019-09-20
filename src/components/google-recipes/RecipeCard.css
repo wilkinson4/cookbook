@@ -14,3 +14,12 @@
 .columns {
     align-items: center;
 }
+
+#googleSearch__field {
+    justify-content: center;
+}
+
+.pagination-link.is-current {
+    border-color: #ba0000 !important;
+    background-color: #ba0000 !important;
+}

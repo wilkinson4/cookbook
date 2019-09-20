@@ -54,7 +54,7 @@ export default class AddRatingModal extends Component {
                         </Content>
                     </Modal.Card.Body>
                     <Modal.Card.Foot>
-                        <Button color="success" onClick={this.saveRating}>Save</Button>
+                        <Button color="danger" onClick={this.saveRating}>Save</Button>
                         <Button onClick={this.props.toggleAddRatingModal}>Cancel</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>

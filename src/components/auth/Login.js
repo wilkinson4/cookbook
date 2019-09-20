@@ -83,10 +83,10 @@ export default class LoginForm extends Component {
                         <Input type='password' id='loginPassword' placeholder='password' value={this.state.loginPassword} onChange={this.handleChange} />
                     </fieldset>
                     <fieldset className='field'>
-                        <Button disabled={this.state.loadingStatus} id='loginSubmit__button' onClick={this.handleSubmit}>Login</Button>
+                        <Button color='danger' disabled={this.state.loadingStatus} id='loginSubmit__button' onClick={this.handleSubmit}>Login</Button>
                     </fieldset>
                     <fieldset className='field'>
-                        <p>or</p>
+                        <p className='loginRegister__p'>or</p>
                     </fieldset>
                     <fieldset className='field'>
                         <Button onClick={this.redirectToRegister}>Sign Up</Button>
