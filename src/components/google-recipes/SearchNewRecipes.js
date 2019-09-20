@@ -20,7 +20,6 @@ export default class SearchNewRecipes extends Component {
     }
 
     handleSearch = (event) => {
-        console.log(event.target.id)
         if (event.key === 'Enter' || event.target.id === 'search') {
             this.setState({ loadingStatus: 'loading' })
             GoogleRecipeManager.getRecipesFromGoogle(this.state.searchTerm)
@@ -28,11 +27,11 @@ export default class SearchNewRecipes extends Component {
                     this.setState({
                         recipeResultsFromGoogle: recipeResultsFromGoogle.items,
                         currentPage: 0,
+                        loadingStatus: ''
                     })
                 })
         }
     }
-
 
     setLoadingStatusToFalse = () => {
         this.setState({ loadingStatus: '' })
@@ -55,7 +54,7 @@ export default class SearchNewRecipes extends Component {
 
     nextPage = () => {
         const nextPage = this.state.currentPage + 1
-        GoogleRecipeManager.getNextTenResultsFromGoogle(this.state.searchTerm, nextPage * 10)
+        GoogleRecipeManager.getNextTenResultsFromGoogle(this.state.searchTerm, (nextPage * 10) + 1)
             .then(results => {
                 this.setState({
                     recipeResultsFromGoogle: results.items,
@@ -67,7 +66,7 @@ export default class SearchNewRecipes extends Component {
     previousPage = () => {
         if (this.state.currentPage !== 0) {
             const previousPage = this.state.currentPage - 1
-            GoogleRecipeManager.getNextTenResultsFromGoogle(this.state.searchTerm, previousPage * 10)
+            GoogleRecipeManager.getNextTenResultsFromGoogle(this.state.searchTerm, (previousPage * 10) + 1)
                 .then(results => {
                     this.setState({
                         recipeResultsFromGoogle: results.items,
@@ -144,7 +143,7 @@ export default class SearchNewRecipes extends Component {
                             <Pagination.Step align="previous" onClick={this.previousPage}>Previous</Pagination.Step>
                             <Pagination.Step align="next" onClick={this.nextPage}>Next page</Pagination.Step>
                             <Pagination.List>
-                                <Pagination.Link current>{this.state.currentPage + 1}</Pagination.Link>
+                                <Pagination.Link current color='danger'>{this.state.currentPage + 1}</Pagination.Link>
                                 <Pagination.Link>{this.state.currentPage + 2}</Pagination.Link>
                                 <Pagination.Link>{this.state.currentPage + 3}</Pagination.Link>
                                 <Pagination.Link>{this.state.currentPage + 4}</Pagination.Link>

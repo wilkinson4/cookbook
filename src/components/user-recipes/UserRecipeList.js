@@ -55,7 +55,8 @@ export default class UserRecipeList extends Component {
                         </Control>
                         <p>or</p>
                         <Label>
-                            <Checkbox onChange={this.toggleMadeRecipes} />View Made Recipes
+                            <Checkbox onChange={this.toggleMadeRecipes} />
+                            <span className='viewMadeRecipes__span'>View Made Recipes</span>
                         </Label>
                     </section>
                     <section className='section'>

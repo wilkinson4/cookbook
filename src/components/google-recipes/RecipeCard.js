@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
 import RecipeManager from '../../modules/RecipeManager';
 import './RecipeCard.css'
-import { Icon, Column } from 'rbx';
+import { Icon, Column, Card } from 'rbx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 export default class RecipeCard extends Component {
     state = {
-        title: "",
-        imageURL: "",
-        description: "",
-        recipeLink: "",
-        cookTime: "",
         isSaved: false,
     }
 
     saveRecipe = () => {
         const newRecipeObj = {
-            title: this.state.title,
-            link: this.state.recipeLink,
+            title: this.props.recipe.title,
+            link: this.props.recipe.link,
             userId: parseInt(sessionStorage.getItem("activeUser")),
-            description: this.state.description,
-            imageURL: this.state.imageURL,
-            cookTime: this.state.cookTime,
+            description: this.props.recipe.pagemap.metatags[0]['og:description'] || '',
+            imageURL: this.checkImageDataFromGoogle(),
+            cookTime: this.checkCookTimeFromGoogle(),
             rating: -1,
             notes: ""
         }
@@ -32,107 +27,66 @@ export default class RecipeCard extends Component {
             }))
     }
 
-    checkCookTimeFromGoogle = (imageURL) => {
+    checkCookTimeFromGoogle = () => {
         if (this.props.recipe.pagemap.hasOwnProperty('recipe')) {
-            this.setState({
-                title: this.props.recipe.title,
-                imageURL: imageURL,
-                description: this.props.recipe.pagemap.metatags[0]['og:description'] || '',
-                cookTime: this.props.recipe.pagemap.recipe[0]['totaltime'],
-                recipeLink: this.props.recipe.link,
-            })
+            return this.props.recipe.pagemap.recipe[0]['totaltime'].split('PT')[1]
         } else if (this.props.recipe.pagemap.metatags[0].hasOwnProperty('ncba:recipetime')) {
-            this.setState({
-                title: this.props.recipe.title,
-                imageURL: imageURL,
-                description: this.props.recipe.pagemap.metatags[0]['og:description'] || '',
-                cookTime: this.props.recipe.pagemap.metatags[0]['ncba:recipetime'],
-                recipeLink: this.props.recipe.link,
-            })
+            return this.props.recipe.pagemap.metatags[0]['ncba:recipetime'].split('PT')[1]
         } else {
-            this.setState({
-                title: this.props.recipe.title,
-                imageURL: imageURL,
-                description: this.props.recipe.pagemap.metatags[0]['og:description'] || '',
-                cookTime: "",
-                recipeLink: this.props.recipe.link,
-            })
+            console.log('returning an empty string')
+            return ''
         }
     }
 
     checkImageDataFromGoogle = () => {
         // check the google api results to see if the image properties below exist and if they do set them to the imageURL in state along with the other information needed in a card
         if (this.props.recipe.pagemap.hasOwnProperty('cse_image')) {
-            this.checkCookTimeFromGoogle(this.props.recipe.pagemap.cse_image[0].src)
+            return this.props.recipe.pagemap.cse_image[0].src
         } else if (this.props.recipe.pagemap.hasOwnProperty('cse_thumbnail')) {
-            this.checkCookTimeFromGoogle(this.props.recipe.pagemap.cse_thumbnail[0].src)
+            return this.props.recipe.pagemap.cse_thumbnail[0].src
+        } else if (this.props.recipe.pagemap.metatags[0].hasOwnProperty('og:image')) {
+            return this.props.recipe.pagemap.metatags[0]['og:image']
         } else {
-            this.checkCookTimeFromGoogle(this.props.recipe.pagemap.metatags[0]['og:image'])
+            return 'https://via.placeholder.com/150?text=Recipe+Image'
         }
     }
 
 
-    componentDidMount() {
-        this.checkImageDataFromGoogle()
-    }
-
     render() {
+        const description = this.props.recipe.pagemap.metatags[0]['og:description']
+        const imageURL = this.checkImageDataFromGoogle()
         const activeUserId = parseInt(sessionStorage.getItem('activeUser'))
         const activeUsersRecipes = this.props.recipesFromAPI.filter(recipe => recipe.userId === activeUserId)
         // check if the image exists in the Google Results and render an image if it does
-        if (this.state.imageURL !== "" && this.state.imageURL !== undefined) {
-            return (
-                <div className='recipeResult__div card'>
-                    <div className='card-header'>
-                        <a className='cardTitle__a' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        {activeUsersRecipes.find(recipe => recipe.title === this.state.title) !== undefined || this.state.isSaved
-                            ? <Icon>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </Icon>
-                            : <Icon onClick={this.saveRecipe}>
-                                <FontAwesomeIcon icon={faPlus} />
-                            </Icon>
-                        }
-                    </div>
-                    <div className="card-content">
-                        <Column.Group breakpoint='mobile'>
-                            <Column className='has-text-left'>
-                                <p className='is-size-7'>{this.state.description && this.state.description.slice(0, 150)}...</p>
-                            </Column>
-                            <Column>
-                                <img className='recipeThumbnail__img' src={this.state.imageURL} alt="Recipe Thumbnail"></img>
-                            </Column>
-                        </Column.Group>
-                    </div>
-                    <footer className="card-footer">
+        return (
+            <Card className='recipeResult__div'>
+                <Card.Header>
+                    {activeUsersRecipes.find(recipe => recipe.title === this.props.recipe.title) !== undefined || this.state.isSaved
+                        ? <Icon>
+                            <FontAwesomeIcon icon={faCheck} />
+                        </Icon>
+                        : <Icon onClick={this.saveRecipe}>
+                            <FontAwesomeIcon icon={faPlus} />
+                        </Icon>
+                    }
+                </Card.Header>
+                <Card.Content>
+                    <Column className='has-text-left'>
+                        <a className='cardTitle__a' href={this.props.recipe.link} target='_blank' rel="noopener noreferrer">{this.props.recipe.title}</a>
+                    </Column>
+                    <Column.Group breakpoint='mobile'>
+                        <Column className='has-text-left'>
+                            <p className='is-size-7'>{description && description.slice(0, 150)}...</p>
+                        </Column>
+                        <Column>
+                            <img className='recipeThumbnail__img' src={imageURL} alt="Recipe Thumbnail"></img>
+                        </Column>
+                    </Column.Group>
+                </Card.Content>
+                <Card.Footer className="card-footer">
 
-                    </footer>
-                </div>
-            )
-            // otherwise render a card without an image
-        } else {
-            return (
-                <div className='recipeResult__div card'>
-                    <div className='card-header'>
-                        <a className='cardTitle__a' href={this.state.recipeLink} target='_blank' rel="noopener noreferrer">{this.state.title}</a>
-                        {activeUsersRecipes.find(recipe => recipe.title === this.state.title) !== undefined || this.state.isSaved
-                            ? <Icon>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </Icon>
-                            : <Icon onClick={this.saveRecipe}>
-                                <FontAwesomeIcon icon={faPlus} />
-                            </Icon>
-                        }
-                    </div>
-                    <div className="has-text-left card-content">
-                        <p className='is-size-7'>{this.state.descripttion && this.state.description.slice(0, 150)}...</p>
-                    </div>
-                    <footer className="card-footer">
-
-                    </footer>
-                </div>
-            )
-        }
-
+                </Card.Footer>
+            </Card>
+        )
     }
 }

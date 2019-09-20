@@ -58,7 +58,7 @@ export default class EditNotesModal extends Component {
                         </Content>
                     </Modal.Card.Body>
                     <Modal.Card.Foot>
-                        <Button color="success" onClick={this.saveRecipeWithUpdatedNotes}>Save Notes</Button>
+                        <Button color="danger" onClick={this.saveRecipeWithUpdatedNotes}>Save Notes</Button>
                         <Button onClick={this.props.toggleEditNotesModal}>Cancel</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>

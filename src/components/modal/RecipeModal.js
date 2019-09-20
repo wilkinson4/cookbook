@@ -88,7 +88,7 @@ export default class RecipeModal extends Component {
                         </Content>
                     </Modal.Card.Body>
                     <Modal.Card.Foot>
-                        <Button color="success" onClick={this.saveRecipe}>Save Recipe</Button>
+                        <Button color="danger" onClick={this.saveRecipe}>Save Recipe</Button>
                         <Button onClick={this.props.toggleModal}>Cancel</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>

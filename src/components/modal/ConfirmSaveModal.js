@@ -32,7 +32,7 @@ export default class ConfirmSaveModal extends Component {
                         <Delete onClick={this.props.toggleSaveRecipeNotesModal} />
                     </Modal.Card.Head>
                     <Modal.Card.Foot>
-                        <Button color="success" onClick={this.saveRecipeWithUpdatedNotes}>Yes</Button>
+                        <Button color="danger" onClick={this.saveRecipeWithUpdatedNotes}>Yes</Button>
                         <Button onClick={this.props.toggleSaveRecipeNotesModal}>No</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>

@@ -17,7 +17,7 @@ export default class ConfirmDeleteModal extends Component {
                         <Delete onClick={this.props.toggleDeleteModal} />
                     </Modal.Card.Head>
                     <Modal.Card.Foot>
-                        <Button color="success" onClick={this.onClick}>Yes</Button>
+                        <Button color="danger" onClick={this.onClick}>Yes</Button>
                         <Button onClick={this.props.toggleDeleteModal}>No</Button>
                     </Modal.Card.Foot>
                 </Modal.Card>

@@ -18,6 +18,7 @@ export default class UserRecipeCard extends Component {
 
     deleteRecipe = () => {
         return RecipeManager.deleteRecipe(this.props.recipe.id)
+            .then(this.toggleDeleteModal)
             .then(this.props.getAllRecipes)
     }
 
@@ -39,6 +40,7 @@ export default class UserRecipeCard extends Component {
     }
 
     render() {
+        const primaryButton = "danger"
         return (
             <>
                 {/* Confirm Delete Modal */}
@@ -56,7 +58,9 @@ export default class UserRecipeCard extends Component {
                     <Card.Content>
                         <Column.Group>
                             <Column>
-                                <a className='cardTitle__a' href={this.props.recipe.link} target='_blank' rel='noopener noreferrer'>{this.props.recipe.title}</a>
+                                <a className='cardTitle__a' href={this.props.recipe.link} target='_blank' rel='noopener noreferrer'>
+                                    <h3>{this.props.recipe.title}</h3>
+                                </a>
                             </Column>
                         </Column.Group>
                         <Column.Group breakpoint='mobile'>
@@ -71,37 +75,37 @@ export default class UserRecipeCard extends Component {
                         </Column.Group>
                     </Card.Content>
                     <Card.Footer>
-                            <Card.Footer.Item>
-                                {
-                                    this.props.recipe.rating === -1
-                                        ? <Button onClick={this.toggleAddRatingModal} size='small' >Add Rating</Button>
-                                        : <div className='userStarRating__div' onClick={this.toggleAddRatingModal}>
-                                            <p>Rating</p>
-                                            <StarRatingComponent
-                                                name="rate2"
-                                                editing={false}
-                                                starCount={5}
-                                                value={this.props.recipe.rating}
-                                            />
-                                        </div>
-                                }
-                            </Card.Footer.Item>
-                            <Card.Footer.Item>
-                                <div className='cookTimeContainer__div'>
-                                    <div>
-                                        <p>Cook Time</p>
+                        <Card.Footer.Item>
+                            {
+                                this.props.recipe.rating === -1
+                                    ? <Button onClick={this.toggleAddRatingModal} size='small' >Add Rating</Button>
+                                    : <div className='userStarRating__div' onClick={this.toggleAddRatingModal}>
+                                        <p>Rating</p>
+                                        <StarRatingComponent
+                                            name="rate2"
+                                            editing={false}
+                                            starCount={5}
+                                            value={this.props.recipe.rating}
+                                        />
                                     </div>
-                                    <div>
-                                        {this.props.recipe.cookTime !== ""
-                                            ? <p>{this.props.recipe.cookTime.split('PT')[1]}</p>
-                                            : <p>...</p>
-                                        }
-                                    </div>
+                            }
+                        </Card.Footer.Item>
+                        <Card.Footer.Item>
+                            <div className='cookTimeContainer__div'>
+                                <div>
+                                    <p>Cook Time</p>
                                 </div>
-                            </Card.Footer.Item>
-                            <Card.Footer.Item>
-                                <Button onClick={this.viewRecipeDetails} size='small'>View Details</Button>
-                            </Card.Footer.Item>
+                                <div>
+                                    {this.props.recipe.cookTime !== ""
+                                        ? <p>{this.props.recipe.cookTime}</p>
+                                        : <p>...</p>
+                                    }
+                                </div>
+                            </div>
+                        </Card.Footer.Item>
+                        <Card.Footer.Item>
+                            <Button onClick={this.viewRecipeDetails} color={primaryButton} size='small'>View Details</Button>
+                        </Card.Footer.Item>
                     </Card.Footer>
                 </Card>
             </>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Delete, Content, Input, Field, Message } from 'rbx';
+import { Modal, Delete, Content, Input, Field, Message, Column } from 'rbx';
 import Tag from '../tags/Tag'
 
 export default class AddTagsModal extends Component {
@@ -11,7 +11,7 @@ export default class AddTagsModal extends Component {
 
     handleSaveTag = (event) => {
         if (event.key === 'Enter') {
-            event.target.value=""
+            event.target.value = ""
             this.props.saveTag(this.state.tagName)
         }
     }
@@ -47,18 +47,19 @@ export default class AddTagsModal extends Component {
                             </Field>
                             <Field>
                                 <h4>Current Tags:</h4>
-                                {
-                                    this.props.recipeTags.map(recipeTag =>
-                                        <Tag
-                                            key={recipeTag.id}
-                                            deleteTag={this.props.deleteTag}
-                                            tagRelationships={this.props.tagRelationships}
-                                            recipeTag={recipeTag}
-                                        />
-                                    )
+                                <Column as='div' className='tagColumn__div is-flex'>
+                                    {
+                                        this.props.recipeTags.map(recipeTag =>
+                                            <Tag
+                                                key={recipeTag.id}
+                                                deleteTag={this.props.deleteTag}
+                                                tagRelationships={this.props.tagRelationships}
+                                                recipeTag={recipeTag}
+                                            />
+                                        )
 
-                                }
-
+                                    }
+                                </Column>
                             </Field>
                         </Content>
                     </Modal.Card.Body>

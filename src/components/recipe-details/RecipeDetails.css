@@ -1,3 +1,13 @@
 #recipeNotes__tile{
     padding: 0;
 }
+
+.tagColumn__div {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+/* Removes bug where the last tag doesn't have bottom margin which causes it to appear larger than it's tag siblings */
+.content p:last-child {
+    margin-bottom: 1em;
+}

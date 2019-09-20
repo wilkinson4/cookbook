@@ -75,7 +75,7 @@ export default class RegisterForm extends Component {
                     </Message.Body>
                 </Message>
                 <form className='register__form section has-text-centered'>
-                    <h1 className='registerForm__h1 is-size-3-mobile'>Join What's Cooking</h1>
+                    <h1 className='loginForm__h1 is-size-3-mobile'>Join What's Cooking</h1>
                     <fieldset className='field'>
                         <Input type='email' id='registerEmail' placeholder='email' value={this.state.registerEmail} onChange={this.handleChange} />
                     </fieldset>
@@ -89,7 +89,7 @@ export default class RegisterForm extends Component {
                         <Button disabled={this.state.loadingStatus} id='registerSubmit__button' onClick={this.handleSubmit}>Register</Button>
                     </fieldset>
                     <fieldset className='field'>
-                        <p>Already a user?</p>
+                        <p className='loginRegister__p'>Already a user?</p>
                     </fieldset>
                     <fieldset className='field'>
                         <Button onClick={this.redirectToLogin}>Login</Button>
