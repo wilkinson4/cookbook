@@ -6,3 +6,7 @@
 .cardContent__div {
     font-size: 50px
 }
+
+.modal-card {
+    width: 85% !important;
+}
