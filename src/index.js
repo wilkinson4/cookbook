@@ -4,6 +4,7 @@ import './index.css';
 import CookBook from './components/CookBook';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
+import './queries.css';
 import {ThemeContext} from 'rbx/base/theme'
 import { makeRootValidatingTransform } from "rbx/base/helpers";
 import { DEFAULTS } from "rbx/base/helpers/variables";

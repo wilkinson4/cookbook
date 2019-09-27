@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import UserManager from '../../modules/UserManager';
-import { Input, Button, Message } from 'rbx';
+import { Input, Button, Message, Field, Control, Icon } from 'rbx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import './Login.css'
 
 export default class LoginForm extends Component {
@@ -74,23 +76,41 @@ export default class LoginForm extends Component {
                         <p>{this.state.errorMessage}</p>
                     </Message.Body>
                 </Message>
-                <form className='login__form section has-text-centered'>
-                    <h1 className='loginForm__h1 is-size-3-mobile'>What's Cooking?</h1>
-                    <fieldset className='field'>
-                        <Input type='email' id='loginEmail' placeholder='email' value={this.state.loginEmail} onChange={this.handleChange} />
-                    </fieldset>
-                    <fieldset className='field'>
-                        <Input type='password' id='loginPassword' placeholder='password' value={this.state.loginPassword} onChange={this.handleChange} />
-                    </fieldset>
-                    <fieldset className='field'>
-                        <Button color='danger' disabled={this.state.loadingStatus} id='loginSubmit__button' onClick={this.handleSubmit}>Login</Button>
-                    </fieldset>
-                    <fieldset className='field'>
-                        <p className='loginRegister__p'>or</p>
-                    </fieldset>
-                    <fieldset className='field'>
-                        <Button onClick={this.redirectToRegister}>Sign Up</Button>
-                    </fieldset>
+                <form className='login__form section'>
+                    <Field kind='group' align='centered'>
+                        <h1 className='loginForm__h1 is-size-3-mobile'>What's Cooking?</h1>
+                    </Field>
+                    <Field>
+                        <Control iconLeft>
+                            <Input type='email' id='loginEmail' placeholder='Email' value={this.state.loginEmail} onChange={this.handleChange} />
+                            <Icon size="small" align="left">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                            </Icon>
+                        </Control>
+                    </Field>
+                    <Field>
+                        <Control iconLeft>
+                            <Input type='password' id='loginPassword' placeholder='Password' value={this.state.loginPassword} onChange={this.handleChange} />
+                            <Icon size="small" align="left">
+                                <FontAwesomeIcon icon={faLock} />
+                            </Icon>
+                        </Control>
+                    </Field>
+                    <Field kind='group' align='centered'>
+                        <Control>
+                            <Button color='danger' disabled={this.state.loadingStatus} id='loginSubmit__button' onClick={this.handleSubmit}>Login</Button>
+                        </Control>
+                    </Field>
+                    <Field kind='group' align='centered'>
+                        <Control>
+                            <p className='loginRegister__p'>or</p>
+                        </Control>
+                    </Field>
+                    <Field kind='group' align='centered'>
+                        <Control>
+                            <Button onClick={this.redirectToRegister}>Sign Up</Button>
+                        </Control>
+                    </Field>
                 </form>
             </div>
         )

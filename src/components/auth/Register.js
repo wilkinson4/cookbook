@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import UserManager from '../../modules/UserManager';
-import { Input, Button, Message } from 'rbx'
+import { Input, Button, Message, Field, Control, Icon } from 'rbx'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default class RegisterForm extends Component {
     state = {
@@ -66,7 +68,7 @@ export default class RegisterForm extends Component {
         }
         return (
             <div className='loginRegister__container'>
-                <Message className='message__container'color="danger" style={displayErrorMessage}>
+                <Message className='message__container' color="danger" style={displayErrorMessage}>
                     <Message.Header>
                         <p>Error</p>
                     </Message.Header>
@@ -74,26 +76,49 @@ export default class RegisterForm extends Component {
                         <p>{this.state.errorMessage}</p>
                     </Message.Body>
                 </Message>
-                <form className='register__form section has-text-centered'>
-                    <h1 className='loginForm__h1 is-size-3-mobile'>Join What's Cooking</h1>
-                    <fieldset className='field'>
-                        <Input type='email' id='registerEmail' placeholder='email' value={this.state.registerEmail} onChange={this.handleChange} />
-                    </fieldset>
-                    <fieldset className='field'>
-                        <Input type='text' id='registerUsername' placeholder='username' value={this.state.registerUsername} onChange={this.handleChange} />
-                    </fieldset>
-                    <fieldset className='field'>
-                        <Input type='password' id='registerPassword' placeholder='password' value={this.state.registerPassword} onChange={this.handleChange} />
-                    </fieldset>
-                    <fieldset className='field'>
-                        <Button color='danger' disabled={this.state.loadingStatus} id='registerSubmit__button' onClick={this.handleSubmit}>Register</Button>
-                    </fieldset>
-                    <fieldset className='field'>
-                        <p className='loginRegister__p'>Already a user?</p>
-                    </fieldset>
-                    <fieldset className='field'>
-                        <Button onClick={this.redirectToLogin}>Login</Button>
-                    </fieldset>
+                <form className='register__form section'>
+                    <Field kind='group' align='centered'>
+                        <h1 className='loginForm__h1 is-size-3-mobile'>Join What's Cooking</h1>
+                    </Field>
+                    <Field>
+                        <Control iconLeft>
+                            <Input type='email' id='registerEmail' placeholder='email' value={this.state.registerEmail} onChange={this.handleChange} />
+                            <Icon size="small" align="left">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                            </Icon>
+                        </Control>
+                    </Field>
+                    <Field>
+                        <Control iconLeft>
+                            <Input type='text' id='registerUsername' placeholder='username' value={this.state.registerUsername} onChange={this.handleChange} />
+                            <Icon size="small" align="left">
+                                <FontAwesomeIcon icon={faUser} />
+                            </Icon>
+                        </Control>
+                    </Field>
+                    <Field align='centered'>
+                        <Control iconLeft>
+                            <Input type='password' id='registerPassword' placeholder='password' value={this.state.registerPassword} onChange={this.handleChange} />
+                            <Icon size="small" align="left">
+                                <FontAwesomeIcon icon={faLock} />
+                            </Icon>
+                        </Control>
+                    </Field>
+                    <Field kind='group' align='centered'>
+                        <Control>
+                            <Button color='danger' disabled={this.state.loadingStatus} id='registerSubmit__button' onClick={this.handleSubmit}>Register</Button>
+                        </Control>
+                    </Field>
+                    <Field kind='group' align='centered'>
+                        <Control>
+                            <p className='loginRegister__p'>Already a user?</p>
+                        </Control>
+                    </Field>
+                    <Field kind='group' align='centered'>
+                        <Control>
+                            <Button onClick={this.redirectToLogin}>Login</Button>
+                        </Control>
+                    </Field>
                 </form>
             </div>
         )
