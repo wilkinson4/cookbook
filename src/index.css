@@ -31,3 +31,7 @@ h3,
 h4 {
   font-family: "Raleway", sans-serif !important;
 }
+
+.is-small {
+  font-size: 0.98rem !important;
+}

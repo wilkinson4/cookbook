@@ -33,7 +33,6 @@ export default class RecipeCard extends Component {
         } else if (this.props.recipe.pagemap.metatags[0].hasOwnProperty('ncba:recipetime')) {
             return this.props.recipe.pagemap.metatags[0]['ncba:recipetime'].split('PT')[1]
         } else {
-            console.log('returning an empty string')
             return ''
         }
     }

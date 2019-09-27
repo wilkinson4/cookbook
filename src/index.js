@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import CookBook from './components/CookBook';
 import * as serviceWorker from './serviceWorker';
-import "rbx/index.css";
 import './index.css';
 import {ThemeContext} from 'rbx/base/theme'
 import { makeRootValidatingTransform } from "rbx/base/helpers";
