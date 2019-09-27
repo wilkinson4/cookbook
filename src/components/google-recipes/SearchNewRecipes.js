@@ -11,7 +11,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 export default class SearchNewRecipes extends Component {
     state = {
-        recipeResultsFromGoogle: [],
+        recipeResultsFromGoogle: null,
         recipesFromAPI: [],
         active: false,
         currentPage: 0,
@@ -126,7 +126,7 @@ export default class SearchNewRecipes extends Component {
                     <p>or</p>
                     <Button onClick={this.toggleModal}>Add Your Own</Button>
                     {
-                        this.state.recipeResultsFromGoogle.length > 0
+                        this.state.recipeResultsFromGoogle !== null
                         && <RecipeList
                             recipeResults={this.state.recipeResultsFromGoogle}
                             recipesFromAPI={this.state.recipesFromAPI}
@@ -137,7 +137,7 @@ export default class SearchNewRecipes extends Component {
                     }
                 </main>
 
-                {this.state.recipeResultsFromGoogle.length > 0
+                {this.state.recipeResultsFromGoogle !== null
                     && <footer className='pagination__footer section'>
                         <Pagination>
                             <Pagination.Step align="previous" onClick={this.previousPage}>Previous</Pagination.Step>
