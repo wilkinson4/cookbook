@@ -1,4 +1,4 @@
-const remoteURL = "http://localhost:4000"
+const remoteURL = "https://damp-fortress-76293.herokuapp.com"
 
 const UserData = {
     getSingleUser(id) {
