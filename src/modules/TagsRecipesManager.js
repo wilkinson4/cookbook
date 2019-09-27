@@ -1,4 +1,4 @@
-const remoteURL = "http://localhost:8088"
+const remoteURL = "http://localhost:4000"
 
 const TagsRecipesData = { 
     addTagRecipeRelationship(tagsRecipes) {
