@@ -29,7 +29,7 @@ export default class AddTagsModal extends Component {
                 <Modal.Background onClick={this.props.toggleAddTagsModal} />
                 <Modal.Card>
                     <Modal.Card.Head>
-                        <Modal.Card.Title>Add Tags to Your Recipe</Modal.Card.Title>
+                        <Modal.Card.Title>Add Tags</Modal.Card.Title>
                         <Delete onClick={this.props.toggleAddTagsModal} />
                     </Modal.Card.Head>
                     <Modal.Card.Body>
