@@ -22,7 +22,7 @@ export default class UserRecipeList extends Component {
     }
 
     filterTags = () => {
-        const filteredTags = this.props.usersTags.filter(tag => tag.name.includes(this.state.filterRecipeText))
+        const filteredTags = this.props.usersTags.filter(tag => tag.name.includes(this.state.filterRecipeText.toLocaleLowerCase()))
         const filteredTagRelationships = this.props.tagRelationships.filter(tagRelationship => {
             return filteredTags.find(tag => tag.id === tagRelationship.tagId)
         })
