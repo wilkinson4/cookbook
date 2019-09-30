@@ -11,14 +11,16 @@ export default class NavBar extends Component {
         return (
             <Navbar transparent>
                 <Navbar.Brand>
-                    <Navbar.Item href="https://bulma.io">
-                        <img
-                            src='../../logo.png'
-                            alt="Bulma: a modern CSS framework based on Flexbox"
-                            width="112"
-                            height="28"
-                            id='navLogo__img'
-                        />
+                    <Navbar.Item>
+                        <Link to='/'>
+                            <img
+                                src='../../logo.png'
+                                alt="Bulma: a modern CSS framework based on Flexbox"
+                                width="112"
+                                height="28"
+                                id='navLogo__img'
+                            />
+                        </Link>
                     </Navbar.Item>
                     <Navbar.Burger />
                 </Navbar.Brand>
