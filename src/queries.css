@@ -2,7 +2,8 @@
   .loginForm__h1 {
     font-size: 2.5rem;
   }
-  .field {
+  .loginForm__field,
+  .registerForm__field {
     width: 60%;
   }
   .login__form {
@@ -17,10 +18,27 @@
   .message__container {
     left: 27%;
   }
+  .section {
+    margin: 0 auto;
+    width: 1200px;
+  }
+  .recipes__section .card {
+    width: 45%;
+  }
+  .recipes__section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .recipeDetails__section .card {
+    width: 70%;
+    margin: 0 auto;
+  }
 }
 
 @media screen and (min-width: 1200px) {
-  .field {
+  .loginForm__field,
+  .registerForm__field {
     width: 40%;
   }
   .login__form {

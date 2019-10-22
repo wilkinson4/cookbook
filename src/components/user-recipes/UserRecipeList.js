@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NavBar from '../nav/Navbar';
-import { Input, Checkbox, Label, Control, Icon } from 'rbx';
+import { Input, Checkbox, Label, Control, Icon, Field } from 'rbx';
 import UserRecipeCard from './UserRecipeCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -44,22 +44,24 @@ export default class UserRecipeList extends Component {
         return (
             <>
                 <NavBar />
-                <main className='has-text-centered section' >
-                    <section>
-                        <h1 className='h1 is-size-3-mobile'>Your Recipes</h1>
-                        <Control iconRight>
-                            <Input id='filterRecipeText' onKeyUp={this.handleChange} type='text' placeholder='hungry for pasta?' />
-                            <Icon size="small" align="right">
-                                <FontAwesomeIcon icon={faSearch} />
-                            </Icon>
-                        </Control>
+                <main className='has-text-centered' >
+                    <section className='section'>
+                        <h1 className='h1 is-size-3'>Your Recipes</h1>
+                        <Field id="search__field" kind="addons">
+                            <Control iconRight>
+                                <Input id='filterRecipeText' onKeyUp={this.handleChange} type='text' placeholder='hungry for pasta?' />
+                                <Icon size="small" align="right">
+                                    <FontAwesomeIcon icon={faSearch} />
+                                </Icon>
+                            </Control>
+                        </Field>
                         <p>or</p>
                         <Label>
                             <Checkbox onChange={this.toggleMadeRecipes} />
                             <span className='viewMadeRecipes__span'>View Made Recipes</span>
                         </Label>
                     </section>
-                    <section className='section'>
+                    <section className='section recipes__section'>
                         {
                             (this.state.filterRecipeText === "" && !this.state.showMadeRecipes)
                                 ? this.props.usersRecipes.map((recipe, i) =>

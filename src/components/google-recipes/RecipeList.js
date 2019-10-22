@@ -7,7 +7,7 @@ export default class RecipeList extends Component {
     render() {
         return (
             <>
-                <section className='section'>
+                <section className='section recipes__section'>
                     {this.props.recipeResults.map((recipe, i) =>
                         <RecipeCard
                             key={i}

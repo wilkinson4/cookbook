@@ -77,10 +77,10 @@ export default class RegisterForm extends Component {
                     </Message.Body>
                 </Message>
                 <form className='register__form section'>
-                    <Field kind='group' align='centered'>
+                    <Field className='registerForm__field' kind='group' align='centered'>
                         <h1 className='loginForm__h1 is-size-3-mobile'>Join What's Cooking</h1>
                     </Field>
-                    <Field>
+                    <Field className='registerForm__field'>
                         <Control iconLeft>
                             <Input type='email' id='registerEmail' placeholder='email' value={this.state.registerEmail} onChange={this.handleChange} />
                             <Icon size="small" align="left">
@@ -88,7 +88,7 @@ export default class RegisterForm extends Component {
                             </Icon>
                         </Control>
                     </Field>
-                    <Field>
+                    <Field className='registerForm__field'>
                         <Control iconLeft>
                             <Input type='text' id='registerUsername' placeholder='username' value={this.state.registerUsername} onChange={this.handleChange} />
                             <Icon size="small" align="left">
@@ -96,7 +96,7 @@ export default class RegisterForm extends Component {
                             </Icon>
                         </Control>
                     </Field>
-                    <Field align='centered'>
+                    <Field className='registerForm__field' align='centered'>
                         <Control iconLeft>
                             <Input type='password' id='registerPassword' placeholder='password' value={this.state.registerPassword} onChange={this.handleChange} />
                             <Icon size="small" align="left">
@@ -104,17 +104,17 @@ export default class RegisterForm extends Component {
                             </Icon>
                         </Control>
                     </Field>
-                    <Field kind='group' align='centered'>
+                    <Field className='registerForm__field' kind='group' align='centered'>
                         <Control>
                             <Button color='danger' disabled={this.state.loadingStatus} id='registerSubmit__button' onClick={this.handleSubmit}>Register</Button>
                         </Control>
                     </Field>
-                    <Field kind='group' align='centered'>
+                    <Field className='registerForm__field' kind='group' align='centered'>
                         <Control>
                             <p className='loginRegister__p'>Already a user?</p>
                         </Control>
                     </Field>
-                    <Field kind='group' align='centered'>
+                    <Field className='registerForm__field' kind='group' align='centered'>
                         <Control>
                             <Button onClick={this.redirectToLogin}>Login</Button>
                         </Control>

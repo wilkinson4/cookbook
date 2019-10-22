@@ -77,10 +77,10 @@ export default class LoginForm extends Component {
                     </Message.Body>
                 </Message>
                 <form className='login__form section'>
-                    <Field kind='group' align='centered'>
+                    <Field className='loginForm__field' kind='group' align='centered'>
                         <h1 className='loginForm__h1 is-size-3-mobile'>What's Cooking?</h1>
                     </Field>
-                    <Field>
+                    <Field className='loginForm__field'>
                         <Control iconLeft>
                             <Input type='email' id='loginEmail' placeholder='Email' value={this.state.loginEmail} onChange={this.handleChange} />
                             <Icon size="small" align="left">
@@ -88,7 +88,7 @@ export default class LoginForm extends Component {
                             </Icon>
                         </Control>
                     </Field>
-                    <Field>
+                    <Field className='loginForm__field'>
                         <Control iconLeft>
                             <Input type='password' id='loginPassword' placeholder='Password' value={this.state.loginPassword} onChange={this.handleChange} />
                             <Icon size="small" align="left">
@@ -96,17 +96,17 @@ export default class LoginForm extends Component {
                             </Icon>
                         </Control>
                     </Field>
-                    <Field kind='group' align='centered'>
+                    <Field className='loginForm__field' kind='group' align='centered'>
                         <Control>
                             <Button color='danger' disabled={this.state.loadingStatus} id='loginSubmit__button' onClick={this.handleSubmit}>Login</Button>
                         </Control>
                     </Field>
-                    <Field kind='group' align='centered'>
+                    <Field className='loginForm__field' kind='group' align='centered'>
                         <Control>
                             <p className='loginRegister__p'>or</p>
                         </Control>
                     </Field>
-                    <Field kind='group' align='centered'>
+                    <Field className='loginForm__field' kind='group' align='centered'>
                         <Control>
                             <Button onClick={this.redirectToRegister}>Sign Up</Button>
                         </Control>

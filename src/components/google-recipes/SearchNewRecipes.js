@@ -100,7 +100,7 @@ export default class SearchNewRecipes extends Component {
         return (
             <>
                 <NavBar />
-                <main className='has-text-centered section' >
+                <main className='has-text-centered' >
                     {/* Displays the modal if this.state.active === true */}
                     {this.state.active
                         && <RecipeModal
@@ -109,7 +109,7 @@ export default class SearchNewRecipes extends Component {
                             getAllRecipes={this.props.getAllRecipes}
                             {...this.props}
                         />}
-                    <h1 className='h1 is-size-3-mobile'>Google for Recipes</h1>
+                    <h1 className='h1 is-size-3'>Google for Recipes</h1>
                     <Field id='googleSearch__field' kind="addons">
                         <Control>
                             <Input id='searchTerm' type='text' placeholder='search for a recipe' onKeyPress={this.handleSearch} onChange={this.handleChange} />
@@ -123,18 +123,18 @@ export default class SearchNewRecipes extends Component {
                             </Button>
                         </Control>
                     </Field>
-                    <p>or</p>
+                    <p className='googleRecipes__p'>or</p>
                     <Button onClick={this.toggleModal}>Add Your Own</Button>
-                    {
-                        this.state.recipeResultsFromGoogle !== null
-                        && <RecipeList
-                            recipeResults={this.state.recipeResultsFromGoogle}
-                            recipesFromAPI={this.state.recipesFromAPI}
-                            setLoadingStatusToFalse={this.setLoadingStatusToFalse}
-                            {...this.props}
-                        />
+                        {
+                            this.state.recipeResultsFromGoogle !== null
+                            && <RecipeList
+                                recipeResults={this.state.recipeResultsFromGoogle}
+                                recipesFromAPI={this.state.recipesFromAPI}
+                                setLoadingStatusToFalse={this.setLoadingStatusToFalse}
+                                {...this.props}
+                            />
 
-                    }
+                        }
                 </main>
 
                 {this.state.recipeResultsFromGoogle !== null

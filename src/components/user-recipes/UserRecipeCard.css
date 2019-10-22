@@ -33,3 +33,7 @@
 .viewMadeRecipes__span {
   margin-left: 5px;
 }
+
+#search__field {
+  justify-content: center;
+}

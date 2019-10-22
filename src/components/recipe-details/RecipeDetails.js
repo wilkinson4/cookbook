@@ -145,7 +145,7 @@ export default class RecipeDetails extends Component {
                 <NavBar />
                 {
                     (this.props.currentRecipe.title !== "")
-                    && <main className='has-text-centered section'>
+                    && <main className='has-text-centered section recipeDetails__section'>
                         {/* =========== */}
                         {/* MODALS START */}
                         {/* =========== */}

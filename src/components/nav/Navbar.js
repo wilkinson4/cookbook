@@ -11,7 +11,7 @@ export default class NavBar extends Component {
         return (
             <Navbar transparent>
                 <Navbar.Brand>
-                    <Navbar.Item>
+                    <Navbar.Item as='div'>
                         <Link to='/'>
                             <img
                                 src='../../logo.png'
